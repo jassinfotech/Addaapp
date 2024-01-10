@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/EvilIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconstar from 'react-native-vector-icons/Entypo';
 import Iconst from 'react-native-vector-icons/FontAwesome';
+import Ionicon from 'react-native-vector-icons/EvilIcons';
 import { Appbar } from 'react-native-paper';
 import freefire from '../image/freefire.png';
 import pubg from '../image/pubg.png';
@@ -20,7 +21,7 @@ const Support = ({ navigation }) => {
             <TouchableOpacity style={{ paddingRight: 8 }}>
               <Text> <Icon size={27} name="reorder-three-outline" color={'#fff'} /></Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{ width: "auto", alignItems: "flex-end", marginLeft: 15, backgroundColor: '#e84649', padding: 7, borderRadius: 7,paddingHorizontal:12}}>
+            <TouchableOpacity onPress={() => navigation.navigate("Wallet")} style={{ width: "auto", alignItems: "flex-end", marginLeft: 15, backgroundColor: '#e84649', padding: 7, borderRadius: 7, paddingHorizontal: 12 }}>
               <View style={{ flexDirection: 'row' }}>
                 <Text> <Iconstar size={16} name="wallet" color={'#fff'} /></Text>
                 <Text style={{ marginHorizontal: 5, marginTop: 2 }}> <Iconst size={16} name="rupee" color={'#fff'} /></Text>
@@ -29,9 +30,9 @@ const Support = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={{ flexDirection: 'row' }}>
-           
-            <TouchableOpacity onPress={() => navigation.navigate("News")} style={{ width: "auto", alignItems: "flex-end", marginRight: 10, marginLeft: 15 }}>
-              <Text style={{ paddingTop: 5 }}><Ionicons size={40} name="user" color={'#fff'} /> </Text>
+
+            <TouchableOpacity style={{ width: "auto", alignItems: "flex-end", marginRight: 10, marginLeft: 15 }}>
+              <Text style={{ paddingTop: 5 }}><Ionicon size={40} name="user" color={'#fff'} /> </Text>
             </TouchableOpacity>
 
           </View>

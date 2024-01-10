@@ -41,7 +41,6 @@ const Tabs = () => {
 
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <MaterialIcons name="home" style={focused ? styles.Activaddbtn : styles.addbtn} />
-                            <Text style={focused ? styles.activeTabLabel : styles.tabLabel}>Markit</Text>
                         </View>
 
 
@@ -54,7 +53,6 @@ const Tabs = () => {
 
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <MaterialIco name="gift-outline" style={focused ? styles.Activaddbtn : styles.addbtn} />
-                            <Text style={focused ? styles.activeTabLabel : styles.tabLabel}>Markit</Text>
                         </View>
 
 
@@ -68,7 +66,6 @@ const Tabs = () => {
 
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <MaterialIco name="trophy-outline" style={focused ? styles.Activaddbtn : styles.addbtn} />
-                            <Text style={focused ? styles.activeTabLabel : styles.tabLabel}>Markit</Text>
                         </View>
 
 
@@ -81,7 +78,6 @@ const Tabs = () => {
 
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <MaterialIco name="notifications-outline" style={focused ? styles.Activaddbtn : styles.addbtn} />
-                            <Text style={focused ? styles.activeTabLabel : styles.tabLabel}>Markit</Text>
                         </View>
 
 
@@ -94,7 +90,6 @@ const Tabs = () => {
 
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <MaterialIcon name="headset" style={focused ? styles.Activaddbtn : styles.addbtn} />
-                            <Text style={focused ? styles.activeTabLabel : styles.tabLabel}>Markit</Text>
                         </View>
 
 
@@ -113,7 +108,7 @@ const styles = StyleSheet.create({
         padding: 2,
         textAlign: 'center',
         paddingTop: 9,
-        fontSize: 26
+        fontSize: 26,
     },
 
     Activaddbtn: {
@@ -122,8 +117,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         justifyContent: 'center',
         paddingTop: 7,
-        fontSize: 27,
-        top: 8
+        fontSize: 30,
     },
 
     tabLabel: {

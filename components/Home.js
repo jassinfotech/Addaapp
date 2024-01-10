@@ -11,7 +11,6 @@ import freefire from '../image/freefire.png';
 import pubg from '../image/pubg.png';
 import callduty from '../image/callduty.png';
 import knife from '../image/knife.png';
-import Sliderscreen from './Sliderscreen';
 
 
 const Home = ({ navigation }) => {
@@ -48,9 +47,7 @@ const Home = ({ navigation }) => {
       >
               </ImageBackground> */}
         <ScrollView style={styles.container}>
-        <View>
-          <Sliderscreen/>
-        </View>
+        
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Image source={lodoImage} style={styles.lodoimae} />
             <Image source={rummyImage} style={styles.lodoimae} />
