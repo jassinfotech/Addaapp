@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Image, } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, StyleSheet,   DrawerLayoutAndroid, ScrollView, TouchableOpacity, Image,Button } from 'react-native';
 import Ionicons from 'react-native-vector-icons/EvilIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconstar from 'react-native-vector-icons/Entypo';
@@ -11,17 +11,33 @@ import freefire from '../image/freefire.png';
 import pubg from '../image/pubg.png';
 import callduty from '../image/callduty.png';
 import knife from '../image/knife.png';
+import Sidescreen from './Sidescreen';
 
 
 const Home = ({ navigation }) => {
+  const drawer = useRef(null);
+  const [drawerPosition] = useState('left');
 
+ 
+
+  const navigationView = () => (
+    <View style={{ flex: 1, backgroundColor: '#BA1E1E', padding: 16 }}>
+      <Sidescreen/>
+    </View>
+  );
 
   return (
+    <DrawerLayoutAndroid
+    ref={drawer}
+    drawerWidth={300}
+    drawerPosition={drawerPosition === 'left' ? DrawerLayoutAndroid.positions.Left : DrawerLayoutAndroid.positions.Right}
+    renderNavigationView={navigationView}
+  >
     <View style={[styles.background,]}>
       <Appbar.Header style={{ backgroundColor: "#BA1E1E", flexDirection: 'row' }} >
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1, paddingHorizontal: 8, paddingVertical: 10 }}>
           <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity style={{ paddingRight: 8 }}>
+            <TouchableOpacity style={{ paddingRight: 8 }}  onPress={() => drawer.current?.openDrawer()}>
               <Text> <Icon size={27} name="reorder-three-outline" color={'#fff'} /></Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Wallet")}  style={{ width: "auto", alignItems: "flex-end", marginLeft: 15, backgroundColor: '#e84649', padding: 7, borderRadius: 7, paddingHorizontal: 12 }}>
@@ -88,6 +104,7 @@ const Home = ({ navigation }) => {
         </ScrollView>
 
     </View >
+    </DrawerLayoutAndroid>
   );
 };
 

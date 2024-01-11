@@ -80,7 +80,7 @@ const Wallet = () => {
                     </View>
                     <View style={{backgroundColor:'#A80331',width:'48%',height:100,marginVertical:10,borderRadius:10}}>
                         <Text style={{color:'#fff',textAlign:'center',paddingTop:10}}>Total winning</Text>
-                    
+                     
                     </View>
                  </View>
 
