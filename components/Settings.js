@@ -6,8 +6,12 @@ import Iconst from 'react-native-vector-icons/FontAwesome6';
 import { useNavigation } from '@react-navigation/native';
 
 const Settings = () => {
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const [isEnabled1, setIsEnabled1] = useState(false);
+    const [isEnabled2, setIsEnabled2] = useState(false);
+
+    const toggleSwitch1 = () => setIsEnabled1(previousState => !previousState);
+    const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
+
     const navigation = useNavigation();
 
     const goBack = () => {
@@ -31,7 +35,6 @@ const Settings = () => {
                         <Text><Iconsta size={25} name="chatbubble-ellipses-outline" color={'#fff'} /></Text>
                     </TouchableOpacity>
                 </View>
-
             </View>
             <ScrollView>
                 <View style={{ marginHorizontal: 15 }}>
@@ -40,10 +43,10 @@ const Settings = () => {
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Switch
                                 trackColor={{ false: '#767577', true: '#81b0ff' }}
-                                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                                thumbColor={isEnabled1 ? '#f5dd4b' : '#f4f3f4'}
                                 ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
+                                onValueChange={toggleSwitch1}
+                                value={isEnabled1}
                                 style={{ transform: [{ scaleX: 1 }, { scaleY: 1 }] }}
                             />
                         </View>
@@ -53,10 +56,10 @@ const Settings = () => {
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Switch
                                 trackColor={{ false: '#767577', true: '#81b0ff' }}
-                                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                                thumbColor={isEnabled2 ? '#f5dd4b' : '#f4f3f4'}
                                 ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
+                                onValueChange={toggleSwitch2}
+                                value={isEnabled2}
                                 style={{ transform: [{ scaleX: 1 }, { scaleY: 1 }] }}
                             />
                         </View>
@@ -67,40 +70,40 @@ const Settings = () => {
                             <Text><Iconst size={25} name="power-off" color={'#fff'} /></Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{marginTop:15}}>
-                        <TouchableOpacity style={{flexDirection:'row',justifyContent:'space-between',marginVertical:13}}>
+                    <View style={{ marginTop: 15 }}>
+                        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 13 }}>
                             <View>
                                 <Text style={{ color: '#000', fontSize: 18, fontWeight: '500' }}>Terms and Conditions</Text>
                             </View>
                             <View>
-                            <Text><Iconstar size={24} name="right" color={'#000'} /></Text>
+                                <Text><Iconstar size={24} name="right" color={'#000'} /></Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection:'row',justifyContent:'space-between',marginVertical:13}}>
+                        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 13 }}>
                             <View>
                                 <Text style={{ color: '#000', fontSize: 18, fontWeight: '500' }}>Privacy and Policy</Text>
                             </View>
                             <View>
-                            <Text><Iconstar size={24} name="right" color={'#000'} /></Text>
+                                <Text><Iconstar size={24} name="right" color={'#000'} /></Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection:'row',justifyContent:'space-between',marginVertical:13}}>
+                        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 13 }}>
                             <View>
                                 <Text style={{ color: '#000', fontSize: 18, fontWeight: '500' }}>Contact us</Text>
                             </View>
                             <View>
-                            <Text><Iconstar size={24} name="right" color={'#000'} /></Text>
+                                <Text><Iconstar size={24} name="right" color={'#000'} /></Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection:'row',justifyContent:'space-between',marginVertical:13}}>
+                        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 13 }}>
                             <View>
                                 <Text style={{ color: '#000', fontSize: 18, fontWeight: '500' }}>About us</Text>
                             </View>
                             <View>
-                            <Text><Iconstar size={24} name="right" color={'#000'} /></Text>
+                                <Text><Iconstar size={24} name="right" color={'#000'} /></Text>
                             </View>
                         </TouchableOpacity>
-                        
+
                     </View>
 
                 </View>

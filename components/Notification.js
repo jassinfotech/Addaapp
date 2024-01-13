@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Image, } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, StyleSheet, DrawerLayoutAndroid, ScrollView, TouchableOpacity, Image, } from 'react-native';
 import Ionicons from 'react-native-vector-icons/EvilIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconstar from 'react-native-vector-icons/Entypo';
 import Iconst from 'react-native-vector-icons/FontAwesome';
 import Icodot from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Appbar } from 'react-native-paper';
-import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import Sidescreen from './Sidescreen';
 const notificationData = [
   {
     title: 'Notification',
@@ -44,13 +44,25 @@ const notificationData = [
 ];
 const Notification = ({ navigation }) => {
 
-
+  const drawer = useRef(null);
+  const [drawerPosition] = useState('left');
+  const navigationView = () => (
+    <View style={{ flex: 1, backgroundColor: '#BA1E1E', padding: 16 }}>
+      <Sidescreen />
+    </View>
+  );
   return (
+    <DrawerLayoutAndroid
+    ref={drawer}
+    drawerWidth={300}
+    drawerPosition={drawerPosition === 'left' ? DrawerLayoutAndroid.positions.Left : DrawerLayoutAndroid.positions.Right}
+    renderNavigationView={navigationView}
+  >
     <View style={[styles.background,]}>
       <Appbar.Header style={{ backgroundColor: "#BA1E1E", flexDirection: 'row' }} >
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1, paddingHorizontal: 8, paddingVertical: 10 }}>
           <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity style={{ paddingRight: 8 }}>
+            <TouchableOpacity style={{ paddingRight: 8 }} onPress={() => drawer.current?.openDrawer()}>
               <Text> <Icon size={27} name="reorder-three-outline" color={'#fff'} /></Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Wallet")} style={{ width: "auto", alignItems: "flex-end", marginLeft: 15, backgroundColor: '#e84649', padding: 7, borderRadius: 7, paddingHorizontal: 12 }}>
@@ -63,7 +75,7 @@ const Notification = ({ navigation }) => {
           </View>
           <View style={{ flexDirection: 'row' }}>
 
-            <TouchableOpacity style={{ width: "auto", alignItems: "flex-end", marginRight: 10, marginLeft: 15 }}>
+            <TouchableOpacity onPress={() => navigation.navigate("MyProfile")}  style={{ width: "auto", alignItems: "flex-end", marginRight: 10, marginLeft: 15 }}>
               <Text style={{ paddingTop: 5 }}><Ionicons size={40} name="user" color={'#fff'} /> </Text>
             </TouchableOpacity>
 
@@ -89,6 +101,7 @@ const Notification = ({ navigation }) => {
       </ScrollView>
 
     </View >
+    </DrawerLayoutAndroid>
   );
 };
 

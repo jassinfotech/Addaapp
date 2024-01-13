@@ -30,7 +30,7 @@ const Tabs = () => {
                     backgroundColor: '#BA1E1E',
                     height: 60,
                     borderTopWidth: 0.3,
-                    borderColor: "#BA1E1E",
+                    borderColor: "#fff",
                 },
                 tabBarActiveTintColor: '#FE238C',
             })}>

@@ -12,6 +12,10 @@ import WithrowHistory from './components/WithrowHistory';
 import Deposit from './components/Deposit';
 import MyReferrals from './components/MyReferrals';
 import Settings from './components/Settings';
+import MyProfile from './components/MyProfile';
+import ResponsibleGaming from './components/ResponsibleGaming';
+import Stats from './components/Stats';
+import Lodoking from './components/Lodoking';
 
 
 const Stack = createNativeStackNavigator();
@@ -29,6 +33,10 @@ const App = () => {
                 <Stack.Screen name="Deposit" component={Deposit} options={{ headerShown: false }} />
                 <Stack.Screen name="MyReferrals" component={MyReferrals} options={{ headerShown: false }} />
                 <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+                <Stack.Screen name="MyProfile" component={MyProfile} options={{ headerShown: false }} />
+                <Stack.Screen name="ResponsibleGaming" component={ResponsibleGaming} options={{ headerShown: false }} />
+                <Stack.Screen name="Stats" component={Stats} options={{ headerShown: false }} />
+                <Stack.Screen name="Lodoking" component={Lodoking} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );
