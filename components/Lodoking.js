@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, Modal, TextInput } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, Modal, TextInput, RefreshControl } from 'react-native';
+import React, { useState, useCallback } from 'react';
 import Iconstar from 'react-native-vector-icons/AntDesign';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import Iconset from 'react-native-vector-icons/Feather';
@@ -8,7 +8,28 @@ import { useNavigation } from '@react-navigation/native';
 import Imagetabs from './Imagetabs';
 import lodoImage from '../image/man.png';
 
+
+const notificationData = {
+    id: 'nzkJXDNkj',
+    message: 'Your challenge has been accepted',
+    coins: '100.0 Coins',
+    imageSource: lodoImage, 
+    senderName: 'sanjay',
+  };
 const Lodoking = () => {
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
+    const handleButtonPress = () => {
+        onRefresh();
+    };
+
     const navigation = useNavigation();
 
     const goBack = () => {
@@ -24,9 +45,6 @@ const Lodoking = () => {
         setAmount(selectedAmount.toString());
     };
 
-    const handleAddMoney = () => {
-        console.log('Adding money:', amount);
-    };
 
     return (
         <View style={styles.container}>
@@ -44,8 +62,36 @@ const Lodoking = () => {
                 </View>
 
             </View>
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }>
                 <View>
+                    <View style={{ backgroundColor: '#fff', paddingHorizontal: 10, padding: 8, marginVertical: 10, justifyContent: 'space-between', flexDirection: 'row' }}>
+                        <Text style={{ color: '#000' }}> My challenges</Text>
+                    </View>
+                    <View onPress={() => navigation.navigate("Contested")} style={{ backgroundColor: '#fff', borderRadius: 10, marginHorizontal: 10, marginVertical: 7, width: '50%' }}>
+                        <View style={{ padding: 5 }}>
+                            <View>
+                                <Text style={{ color: '#BA1E1E', fontSize: 11, textAlign: 'center' }}>{notificationData.id}</Text>
+                                <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{notificationData.message}</Text>
+                                <Text style={{ color: '#BA1E1E', fontSize: 11, textAlign: 'center' }}>{notificationData.coins}</Text>
+                            </View>
+                            <View>
+                                <Image source={notificationData.imageSource} style={{ width: 30, height: 30, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
+                                <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{notificationData.senderName}</Text>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <TouchableOpacity onPress={() => navigation.navigate("Contested")}  style={{ backgroundColor: '#55bc83', borderBottomLeftRadius: 10, width: '50%', padding: 3 }}>
+                                <Text style={{ color: '#fff', textAlign: 'center', fontSize: 10 }}>Update Room Code</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ backgroundColor: '#BA1E1E', borderBottomRightRadius: 10, width: '50%', padding: 3 }}>
+                                <Text style={{ color: '#fff', textAlign: 'center', fontSize: 10 }}>Cancel</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
                     <View>
                         <View style={{ backgroundColor: '#fff', paddingHorizontal: 10, padding: 8, marginVertical: 10, justifyContent: 'space-between', flexDirection: 'row' }}>
                             <Text style={{ color: '#000' }}> Live challenges</Text>
@@ -136,7 +182,7 @@ const Lodoking = () => {
                     <Text style={{ marginTop: 1, textAlign: 'center' }}> <Iconstar size={25} name="playcircleo" color={'#fff'} /></Text>
                     <Text style={{ color: '#fff', fontSize: 10, textAlign: 'center', marginTop: 2 }}>Help</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ width: '25%' }}>
+                <TouchableOpacity onPress={handleButtonPress} style={{ width: '25%' }}>
                     <Text style={{ marginTop: 1, textAlign: 'center' }}> <Iconset size={24} name="refresh-ccw" color={'#fff'} /></Text>
                     <Text style={{ color: '#fff', fontSize: 10, textAlign: 'center', marginTop: 4 }}>Refresh</Text>
                 </TouchableOpacity>
@@ -257,16 +303,16 @@ const styles = StyleSheet.create({
         borderColor: '#A8A8A8',
         marginTop: 10,
         backgroundColor: '#fff',
-        flexDirection: 'row', // align icon and input horizontally
-        alignItems: 'center', // center items vertically
-        paddingLeft: 10, // padding for icon and text input
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingLeft: 10,
         borderRadius: 5,
     },
     iconContainer: {
-        marginRight: 10, // margin between icon and text input
+        marginRight: 10,
     },
     input: {
-        flex: 1, // take up remaining space
+        flex: 1,
         color: '#000',
         fontSize: 13,
         fontWeight: '500',

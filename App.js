@@ -16,6 +16,11 @@ import MyProfile from './components/MyProfile';
 import ResponsibleGaming from './components/ResponsibleGaming';
 import Stats from './components/Stats';
 import Lodoking from './components/Lodoking';
+import Contested from './components/Contested';
+import Errorscreen from './components/Errorscreen';
+import SignIn from './components/Signin';
+import Signup from './components/Signup';
+import OTPPage from './components/OTPPage';
 
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +29,9 @@ const App = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator>
+                <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
+                <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
+                <Stack.Screen name="OTPPage" component={OTPPage} options={{ headerShown: false }} />
                 <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
                 <Stack.Screen name="Wallet" component={Wallet} options={{ headerShown: false }} />
                 <Stack.Screen name="Payment" component={Payment} options={{ headerShown: false }} />
@@ -37,6 +45,8 @@ const App = () => {
                 <Stack.Screen name="ResponsibleGaming" component={ResponsibleGaming} options={{ headerShown: false }} />
                 <Stack.Screen name="Stats" component={Stats} options={{ headerShown: false }} />
                 <Stack.Screen name="Lodoking" component={Lodoking} options={{ headerShown: false }} />
+                <Stack.Screen name="Contested" component={Contested} options={{ headerShown: false }} />
+                <Stack.Screen name="Errorscreen" component={Errorscreen} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );
