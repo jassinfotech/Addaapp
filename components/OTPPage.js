@@ -5,7 +5,11 @@ import lodoImage from '../image/logo.png';
 
 
 const OTPPage = () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+
+    const goBack = () => {
+        navigation.goBack();
+    };
   const [otp, setOtp] = useState(['', '', '', '', '', '']); 
   const [timer, setTimer] = useState(60); 
   const [isTimerRunning, setIsTimerRunning] = useState(true);
@@ -61,7 +65,6 @@ const OTPPage = () => {
             key={index}
             ref={inputRefs[index]}
             style={styles.input}
-            placeholder="0"
             keyboardType="numeric"
             maxLength={1}
             value={digit}
@@ -78,7 +81,7 @@ const OTPPage = () => {
         <Text style={styles.resendButtonText}>Resend OTP</Text>
       </TouchableOpacity>
       <Text style={{fontSize:16,color:'#fff'}}>OR</Text>
-      <TouchableOpacity onPress={() => navigation.navigate("Signin")}  >
+      <TouchableOpacity onPress={goBack}  >
         <Text style={styles.resendButtonText}>Change Number</Text>
       </TouchableOpacity>
     </View>

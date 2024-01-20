@@ -132,7 +132,7 @@ const Contested = () => {
                             <Icons name="gamepad" size={20} color="#000" />
                             </View>
                             <TextInput
-                                placeholder="Enter Coins"
+                                placeholder="Enter"
                                 placeholderTextColor="#999"
                                 style={styles.input}
                                 value={amount}

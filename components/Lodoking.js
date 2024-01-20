@@ -9,14 +9,25 @@ import Imagetabs from './Imagetabs';
 import lodoImage from '../image/man.png';
 
 
-const notificationData = {
-    id: 'nzkJXDNkj',
-    message: 'Your challenge has been accepted',
-    coins: '100.0 Coins',
-    imageSource: lodoImage, 
-    senderName: 'sanjay',
-  };
+
+const notificationData = [
+    {
+        id: 'nzkJXDNkj',
+        message: 'Your challenge has been accepted',
+        coins: '100.0 Coins',
+        imageSource: lodoImage,
+        senderName: 'sanjay',
+    },
+    {
+        id: 'nzkJXDNkj',
+        message: 'Your challenge has been accepted',
+        coins: '100.0 Coins',
+        imageSource: lodoImage,
+        senderName: 'sanjay',
+    },
+];
 const Lodoking = () => {
+     
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
@@ -70,28 +81,31 @@ const Lodoking = () => {
                     <View style={{ backgroundColor: '#fff', paddingHorizontal: 10, padding: 8, marginVertical: 10, justifyContent: 'space-between', flexDirection: 'row' }}>
                         <Text style={{ color: '#000' }}> My challenges</Text>
                     </View>
-                    <View onPress={() => navigation.navigate("Contested")} style={{ backgroundColor: '#fff', borderRadius: 10, marginHorizontal: 10, marginVertical: 7, width: '50%' }}>
-                        <View style={{ padding: 5 }}>
-                            <View>
-                                <Text style={{ color: '#BA1E1E', fontSize: 11, textAlign: 'center' }}>{notificationData.id}</Text>
-                                <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{notificationData.message}</Text>
-                                <Text style={{ color: '#BA1E1E', fontSize: 11, textAlign: 'center' }}>{notificationData.coins}</Text>
+                    <View style={{ flexDirection: 'row' }} >
+                        {notificationData.map((notification, index) => (
+                            <View key={index} onPress={() => navigation.navigate("Contested")} style={{ backgroundColor: '#fff', borderRadius: 10, marginHorizontal: 10, marginVertical: 7, width: '50%' }}>
+                                <View style={{ padding: 5 }}>
+                                    <View>
+                                        <Text style={{ color: '#BA1E1E', fontSize: 11, textAlign: 'center' }}>{notification.id}</Text>
+                                        <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{notification.message}</Text>
+                                        <Text style={{ color: '#BA1E1E', fontSize: 11, textAlign: 'center' }}>{notification.coins}</Text>
+                                    </View>
+                                    <View>
+                                        <Image source={notification.imageSource} style={{ width: 30, height: 30, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
+                                        <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{notification.senderName}</Text>
+                                    </View>
+                                </View>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <TouchableOpacity onPress={() => navigation.navigate("Contested")} style={{ backgroundColor: '#55bc83', borderBottomLeftRadius: 10, width: '50%', padding: 3 }}>
+                                        <Text style={{ color: '#fff', textAlign: 'center', fontSize: 10 }}>Update Room Code</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={{ backgroundColor: '#BA1E1E', borderBottomRightRadius: 10, width: '50%', padding: 3 }}>
+                                        <Text style={{ color: '#fff', textAlign: 'center', fontSize: 10 }}>Cancel</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                            <View>
-                                <Image source={notificationData.imageSource} style={{ width: 30, height: 30, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
-                                <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{notificationData.senderName}</Text>
-                            </View>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <TouchableOpacity onPress={() => navigation.navigate("Contested")}  style={{ backgroundColor: '#55bc83', borderBottomLeftRadius: 10, width: '50%', padding: 3 }}>
-                                <Text style={{ color: '#fff', textAlign: 'center', fontSize: 10 }}>Update Room Code</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ backgroundColor: '#BA1E1E', borderBottomRightRadius: 10, width: '50%', padding: 3 }}>
-                                <Text style={{ color: '#fff', textAlign: 'center', fontSize: 10 }}>Cancel</Text>
-                            </TouchableOpacity>
-                        </View>
+                        ))}
                     </View>
-
                     <View>
                         <View style={{ backgroundColor: '#fff', paddingHorizontal: 10, padding: 8, marginVertical: 10, justifyContent: 'space-between', flexDirection: 'row' }}>
                             <Text style={{ color: '#000' }}> Live challenges</Text>

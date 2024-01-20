@@ -34,7 +34,7 @@ const Signin = () => {
             </View>
 
             <TouchableOpacity onPress={() => { navigation.navigate("OTPPage"); handleSignIn(); }} style={styles.button}>
- 
+
                 <Text style={styles.buttonText}>Sand OTP</Text>
             </TouchableOpacity>
 
@@ -42,8 +42,8 @@ const Signin = () => {
                 <GoogleIcon name="google" size={40} color="#fff" style={styles.GoogleIcon} />
                 <GoogleIco name="facebook-with-circle" size={40} color="#fff" style={styles.GoogleIcon} />
             </View>
-            <View style={{alignSelf:'center',marginVertical:10}}>
-                <Text>NEW USER ? <TouchableOpacity onPress={() => navigation.navigate("Signup")} style={{top:10}}><Text style={{color:'#BA1E1E',top:4,fontSize:16}} >create an account</Text></TouchableOpacity></Text>
+            <View style={{ alignSelf: 'center', marginVertical: 10 }}>
+                <Text>NEW USER ? <TouchableOpacity onPress={() => navigation.navigate("Signup")} style={{ top: 10 }}><Text style={{ color: '#BA1E1E', top: 4, fontSize: 16 }} >create an account</Text></TouchableOpacity></Text>
             </View>
         </View>
     );

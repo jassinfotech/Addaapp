@@ -1,17 +1,13 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, } from 'react-native';
 import React, { useState } from 'react';
 import Iconstar from 'react-native-vector-icons/AntDesign';
-import Iconset from 'react-native-vector-icons/Entypo';
-import Iconsts from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 
 
 
 const Errorscreen = () => {
-
     const [selectedImage, setSelectedImage] = useState(null);
-
     const pickImage = async () => {
         try {
             const result = await DocumentPicker.pick({
@@ -58,11 +54,12 @@ const Errorscreen = () => {
                     alignSelf: 'center',
                     borderTopRightRadius: 15,
                     borderTopLeftRadius: 15,
-                    backgroundColor:'#fff'
+                    backgroundColor: '#fff'
                 }}>
                     {selectedImage && (
                         <Image source={selectedImage} style={styles.selectedImage} resizeMode="contain" />
                     )}
+
 
                 </View>
                 <View>
@@ -74,17 +71,9 @@ const Errorscreen = () => {
                 <View></View>
             </ScrollView>
             <View style={styles.bottomBox}>
-                <TouchableOpacity style={{ width: '25%' }}>
-                    <Text style={{ marginTop: 1, textAlign: 'center' }}> <Iconsts size={24} name="trophy-outline" color={'#fff'} /></Text>
-                    <Text style={{ color: '#fff', fontSize: 10, textAlign: 'center', marginTop: 4 }}>WON</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ width: '25%' }}>
-                    <Text style={{ marginTop: 1, textAlign: 'center' }}> <Iconsts size={25} name="sad-outline" color={'#fff'} /></Text>
-                    <Text style={{ color: '#fff', fontSize: 10, textAlign: 'center', marginTop: 5 }}> LOST</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ width: '25%' }} onPress={() => navigation.navigate("Errorscreen")} >
-                    <Text style={{ marginTop: 1, textAlign: 'center' }}> <Iconset size={25} name="circle-with-cross" color={'#fff'} /></Text>
-                    <Text style={{ color: '#fff', fontSize: 10, textAlign: 'center', marginTop: 4 }}>ERROR </Text>
+       
+                <TouchableOpacity style={{ backgroundColor: '#BA1E1E', paddingHorizontal: '40%', paddingVertical: 10, borderRadius: 6 }}>
+                    <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center', fontWeight: '500' }}>CONFIRM</Text>
                 </TouchableOpacity>
             </View>
 
@@ -96,10 +85,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingBottom: 70,
-        backgroundColor:'rgba(153, 6, 6, 0.43)'
+        backgroundColor: 'rgba(153, 6, 6, 0.43)'
     },
     bottomBox: {
-        backgroundColor: '#BA1E1E',
+        backgroundColor: '#fff',
         position: 'absolute',
         bottom: 0,
         width: '100%',
@@ -138,12 +127,12 @@ const styles = StyleSheet.create({
     selectImageButton: {
         backgroundColor: '#BA1E1E',
         padding: 10,
-        marginHorizontal:37
+        marginHorizontal: 37
     },
     buttonText: {
         color: '#fff',
         fontSize: 16,
-        textAlign:'center'
+        textAlign: 'center'
     },
 });
 

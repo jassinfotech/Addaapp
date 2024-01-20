@@ -29,9 +29,9 @@ const App = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
+                {/* <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
                 <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
-                <Stack.Screen name="OTPPage" component={OTPPage} options={{ headerShown: false }} />
+                <Stack.Screen name="OTPPage" component={OTPPage} options={{ headerShown: false }} /> */}
                 <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
                 <Stack.Screen name="Wallet" component={Wallet} options={{ headerShown: false }} />
                 <Stack.Screen name="Payment" component={Payment} options={{ headerShown: false }} />

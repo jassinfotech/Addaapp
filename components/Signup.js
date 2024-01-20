@@ -4,11 +4,14 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesomeIco from 'react-native-vector-icons/Entypo';
 import CheckBox from '@react-native-community/checkbox';
-
 import lodoImage from '../image/logo.png';
 
 const Signup = () => {
     const navigation = useNavigation();
+
+    const goBack = () => {
+        navigation.goBack();
+    };
     const [isChecked, setIsChecked] = useState(false);
 
     const handleCheckboxChange = () => {
@@ -16,6 +19,7 @@ const Signup = () => {
     };
 
     const [name, setName] = useState('');
+    const [errors, setErrors] = useState(false);
     const [email, setEmail] = useState('');
     const [number, setNumber] = useState('');
     const [inviteCode, setInviteCode] = useState('');
@@ -40,6 +44,7 @@ const Signup = () => {
                 <TextInput
                     style={styles.input}
                     placeholder="Name"
+                      error={errors.Username}
                     autoCapitalize="words"
                     onChangeText={(text) => setName(text)}
                 />
@@ -95,10 +100,10 @@ const Signup = () => {
                 </View>
             </View>
             <View style={{ alignSelf: 'center', marginVertical: 10 }}>
-                <Text>EXISTING USER ? <TouchableOpacity onPress={() => navigation.navigate("Signin")} style={{ top: 10 }}><Text style={{ color: '#BA1E1E', top: 4, fontSize: 16 }} >Login Now</Text></TouchableOpacity></Text>
+                <Text>EXISTING USER ? <TouchableOpacity onPress={goBack}  style={{ top: 10 }}><Text style={{ color: '#BA1E1E', top: 4, fontSize: 16 }} >Login Now</Text></TouchableOpacity></Text>
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+            <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("OTPPage"); handleSignUp(); }}>
                 <Text style={styles.buttonText}>NEXT</Text>
             </TouchableOpacity>
             <View></View>
