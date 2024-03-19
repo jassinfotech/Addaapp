@@ -14,7 +14,7 @@ const MyProfile = () => {
 
     return (
         <View style={styles.container}>
-            <View style={{ backgroundColor: '#BA1E1E' }}>
+            <View style={{ backgroundColor: '#BA1E1E', paddingTop: 30 }}>
                 <View style={{ padding: 15, flexDirection: 'row', justifyContent: 'space-between' }}>
 
                     <View style={{ flexDirection: 'row', marginTop: 7 }}>
@@ -26,7 +26,6 @@ const MyProfile = () => {
                         </View>
                     </View>
                 </View>
-
             </View>
             <ScrollView>
                 <View style={{ marginHorizontal: 10 }}>
@@ -34,7 +33,7 @@ const MyProfile = () => {
                         <View>
                             <Image source={man} style={{ width: 90, height: 90, borderRadius: 50, alignSelf: 'center', borderWidth: 1, borderColor: '#fff' }} />
                             <View style={{ position: 'absolute', top: 60, left: 60, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }} >
-                                <TouchableOpacity style={{borderColor:'#fff',borderWidth:1,borderRadius:50,backgroundColor:'#fff',padding:2}}>
+                                <TouchableOpacity style={{ borderColor: '#fff', borderWidth: 1, borderRadius: 50, backgroundColor: '#fff', padding: 2 }}>
                                     <Text><Iconst size={25} name="edit" color={'#000'} /></Text>
                                 </TouchableOpacity>
                             </View>

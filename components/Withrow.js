@@ -16,9 +16,8 @@ const Withrow = () => {
     };
     return (
         <View>
-            <View style={{ backgroundColor: '#BA1E1E' }}>
+            <View style={{ backgroundColor: '#BA1E1E',paddingTop:35 }}>
                 <View style={{ padding: 15, flexDirection: 'row', justifyContent: 'space-between' }}>
-
                     <View style={{ flexDirection: 'row', marginTop: 7 }}>
                         <TouchableOpacity onPress={goBack}>
                             <Text><Iconstar size={20} name="arrowleft" color={'#fff'} /></Text>

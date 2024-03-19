@@ -15,7 +15,7 @@ const Winners = ({ navigation }) => {
   const drawer = useRef(null);
   const [drawerPosition] = useState('left');
   const navigationView = () => (
-    <View style={{ flex: 1, backgroundColor: '#BA1E1E', padding: 16 }}>
+    <View style={{ flex: 1, backgroundColor: '#BA1E1E', }}>
       <Sidescreen />
     </View>
   );
