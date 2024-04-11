@@ -38,19 +38,7 @@ const Stats = () => {
 
     return (
         <View style={styles.container}>
-            <View style={{ backgroundColor: '#BA1E1E' }}>
-                <View style={{ padding: 15, flexDirection: 'row', justifyContent: 'space-between' }}>
-
-                    <View style={{ flexDirection: 'row', marginTop: 7 }}>
-                        <TouchableOpacity onPress={goBack}>
-                            <Text><Iconstar size={20} name="arrowleft" color={'#fff'} /></Text>
-                        </TouchableOpacity>
-                        <View>
-                            <Text style={{ color: '#fff', marginLeft: 10, fontSize: 15 }}>Stats</Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
+          
             <ScrollView style={styles.body}>
                 <View>
                     {notificationData.map((notification, index) => (

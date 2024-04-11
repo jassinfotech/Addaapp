@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, DrawerLayoutAndroid, ScrollView, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, DrawerLayoutAndroid, ScrollView, TouchableOpacity, Image,  } from 'react-native';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconstar from 'react-native-vector-icons/Entypo';
@@ -111,10 +111,10 @@ const Home = ({ navigation }) => {
 
               </TouchableOpacity>
             </View> */}
-               <View>
+            <View>
               <Text style={styles.heding}>ESPORTS</Text>
             </View>
-              <View style={styles.Images}>
+            <View style={styles.Images}>
               <TouchableOpacity >
                 <Image source={freefires} style={styles.logoImages} />
               </TouchableOpacity>
@@ -170,7 +170,7 @@ const Home = ({ navigation }) => {
                 <Image source={rummyImage} style={styles.logoImages} />
               </TouchableOpacity>
             </View>
-          
+
           </View>
         </ScrollView>
       </View >
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   Image: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom:25
+    marginBottom: 25
   },
 
   logoImage: {

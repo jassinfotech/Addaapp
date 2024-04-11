@@ -8,11 +8,10 @@ import Iconstss from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { Clipboard } from 'react-native';
 import lodoImage from '../image/man.png';
-import { getData, postData } from './helperFile';
+import { postData } from './helperFile';
 
 const Contested = ({ route }) => {
-
-    const { challengeId } = route.params;
+    const { challengeId } = route.params || {};
     const [isCopied, setIsCopied] = useState(false);
     const navigation = useNavigation();
     const goBack = () => {
@@ -72,7 +71,8 @@ const Contested = ({ route }) => {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10 }}>
                         <View>
                             <Image source={lodoImage} style={{ width: 70, height: 70, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
-                            <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{challengeId.name}</Text>
+                            <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{challengeId?.name}</Text>
+
                         </View>
                         <View>
                             <Text style={{ color: '#000', fontSize: 11, textAlign: 'center', justifyContent: 'center', marginTop: 30 }}>VS</Text>
@@ -82,7 +82,7 @@ const Contested = ({ route }) => {
                             <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>000000</Text>
                         </View>
                     </View>
-                    <View style={{ marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
+                    <View style={{ marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
                         <View style={{ borderWidth: 0.9, borderColor: '#000', paddingVertical: 5, borderRadius: 7, paddingHorizontal: 10, width: '32%' }}>
                             <Text style={{ color: '#10A910', fontSize: 14 }}>challenged</Text>
                             <Text style={{ color: '#10A910', fontSize: 14 }}>coins-10.0</Text>
@@ -105,24 +105,17 @@ const Contested = ({ route }) => {
 
 
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10 }}>
+                <View style={{ justifyContent: 'space-between', marginHorizontal: 25, marginTop: 25 }}>
+                    <TouchableOpacity onPress={toggleModal} style={{ backgroundColor: '#BA1E1E', padding: 13, width: '100%', marginBottom: 10, borderRadius: 30 }}>
+                        <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>Update Room Code</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity
-                        style={{ backgroundColor: '#BA1E1E', padding: 10, width: '50%' }}
+                        style={{ backgroundColor: '#BA1E1E', padding: 13, width: '100%', borderRadius: 30 }}
                         onPress={showCancelConfirmation}
                     >
                         <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>CANCEL</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={toggleModal} style={{ backgroundColor: '#BA1E1E', padding: 10, width: '50%' }}>
-                        <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>Update Room Code</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ backgroundColor: 'rgba(253, 6, 6, 0.43)', borderColor: '#BA1E1E', borderWidth: 1, borderRadius: 4, margin: 10, padding: 10 }}>
-                    <Text style={{ color: '#000', fontSize: 12 }}> 1.If you have won take a Screenshot of Winning page from  LudoKing app. Click below on Won to Update the Screenshot & than on confirm to win</Text>
-                    <Text style={{ color: '#000', fontSize: 12 }}> 1.If you have won take a Screenshot of Winning page from  LudoKing app. Click below on Won to Update the Screenshot & than on confirm to win</Text>
-                    <Text style={{ color: '#000', fontSize: 12 }}> 1.If you have won take a Screenshot of Winning page from  LudoKing app. Click below on Won to Update the Screenshot & than on confirm to win</Text>
-                    <Text style={{ color: '#000', fontSize: 12 }}> 1.If you have won take a Screenshot of Winning page from  LudoKing app. Click below on Won to Update the Screenshot & than on confirm to win</Text>
-                    <Text style={{ color: '#000', fontSize: 12 }}> 1.If you have won take a Screenshot of Winning page from  LudoKing app. Click below on Won to Update the Screenshot & than on confirm to win</Text>
-                    <Text style={{ color: '#000', fontSize: 12 }}> 1.If you have won take a Screenshot of Winning page from  LudoKing app. Click below on Won to Update the Screenshot & than on confirm to win</Text>
+
                 </View>
             </ScrollView>
             {isCopied && (
@@ -253,6 +246,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingLeft: 10,
         borderRadius: 5,
+        marginTop: 20
     },
     iconContainer: {
         marginRight: 10,

@@ -1,4 +1,3 @@
-// App.js
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -28,7 +27,7 @@ import Loader from './components/Loader';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-    const [token, setToken] = useState(null);
+    const [token, setToken] = useState(null); 
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         const retrieveToken = async () => {
@@ -41,12 +40,12 @@ const App = () => {
             } finally {
                 setIsLoading(false);
             }
-        }; 
+        };
 
         retrieveToken();
     }, []);
     if (isLoading) {
-        return <Loader/>;
+        return <Loader />;
     }
     return (
         <NavigationContainer>
@@ -65,11 +64,11 @@ const App = () => {
                 <Stack.Screen name="Withrow" component={Withrow} options={{ headerShown: false }} />
                 <Stack.Screen name="WithrowHistory" component={WithrowHistory} options={{ headerShown: false }} />
                 <Stack.Screen name="Deposit" component={Deposit} options={{ headerShown: false }} />
-                <Stack.Screen name="MyReferrals" component={MyReferrals} options={{ headerShown: false }} />
+                <Stack.Screen name="MyReferrals" component={MyReferrals} />
                 <Stack.Screen name="Settings" component={Settings} options={{ headerShown: true }} />
                 <Stack.Screen name="MyProfile" component={MyProfile} options={{ headerShown: false }} />
                 <Stack.Screen name="ResponsibleGaming" component={ResponsibleGaming} options={{ headerShown: false }} />
-                <Stack.Screen name="Stats" component={Stats} options={{ headerShown: false }} />
+                <Stack.Screen name="Stats" component={Stats} />
                 <Stack.Screen name="Lodoking" component={Lodoking} options={{ headerShown: false }} />
                 <Stack.Screen name="Contested" component={Contested} options={{ headerShown: false }} />
                 <Stack.Screen name="Errorscreen" component={Errorscreen} options={{ headerShown: false }} />

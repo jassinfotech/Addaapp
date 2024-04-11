@@ -3,7 +3,7 @@ import React from 'react';
 import Iconstar from 'react-native-vector-icons/AntDesign';
 import Iconst from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
-import man from '../image/man.png';
+import man from '../image/logo.png';
 
 const MyProfile = () => {
     const navigation = useNavigation();

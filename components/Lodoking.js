@@ -15,8 +15,6 @@ const Lodoking = () => {
     const [challengeData, setChallengeData] = useState([]);
     const [acceptchallengeData, setAcceptchallengeData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
-
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
@@ -61,7 +59,7 @@ const Lodoking = () => {
     const myGetCartData = async () => {
         try {
             const response = await getData('user/get-accept-challenges');
-            console.log("-------------------------", response);
+            console.log("-------------------------================", response);
             setAcceptchallengeData(response);
             setIsLoading(false);
         } catch (error) {
@@ -197,7 +195,7 @@ const Lodoking = () => {
                                     <Text style={{ color: '#000', fontSize: 14, fontWeight: '500' }}>20</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => handleAmountSelection(500)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 10, paddingHorizontal: 30, borderRadius: 20, backgroundColor: '#fff' }}>
-                                    <Text style={{ color: '#000', fontSize: 14, fontWeight: '50' }}>50</Text>
+                                    <Text style={{ color: '#000', fontSize: 14, fontWeight: '500' }}>50</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 8 }}>

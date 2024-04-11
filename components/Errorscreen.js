@@ -1,20 +1,24 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, } from 'react-native';
 import React, { useState } from 'react';
-import Iconstar from 'react-native-vector-icons/AntDesign';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import IconStar from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 
-
-
 const Errorscreen = () => {
     const [selectedImage, setSelectedImage] = useState(null);
+
     const pickImage = async () => {
         try {
             const result = await DocumentPicker.pick({
                 type: [DocumentPicker.types.images],
             });
 
-            setSelectedImage({ uri: result.uri });
+            console.log('--------------', result);
+
+            if (result && result.uri) {
+                setSelectedImage({ uri: result.uri });
+                console.log('Selected image URI:', result.uri);
+            }
         } catch (error) {
             if (DocumentPicker.isCancel(error)) {
                 console.log('User cancelled image picker');
@@ -23,6 +27,7 @@ const Errorscreen = () => {
             }
         }
     };
+
     const navigation = useNavigation();
 
     const goBack = () => {
@@ -31,61 +36,81 @@ const Errorscreen = () => {
 
     return (
         <View style={styles.container}>
-            <View style={{ backgroundColor: '#BA1E1E' }}>
-                <View style={{ padding: 15, flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <View style={{ flexDirection: 'row', marginTop: 7 }}>
-                        <TouchableOpacity onPress={goBack}>
-                            <Text><Iconstar size={20} name="arrowleft" color={'#fff'} /></Text>
-                        </TouchableOpacity>
-                        <View>
-                            <Text style={{ color: '#fff', marginLeft: 10 }}>Lodo Contested</Text>
-                        </View>
+            <View style={{ backgroundColor: '#BA1E1E', paddingTop: 25 }}>
+                <View style={{ padding: 15, flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={goBack}>
+                        <IconStar size={20} name="arrowleft" color={'#fff'} />
+                    </TouchableOpacity>
+                    <View>
+                        <Text style={{ color: '#fff', marginLeft: 10 }}>Logo Contested</Text>
                     </View>
                 </View>
             </View>
 
             <ScrollView>
-                <View style={{
-                    width: '80%',
-                    height: 450,
-                    marginTop: 20,
-                    borderColor: '#000',
-                    borderWidth: 1,
-                    alignSelf: 'center',
-                    borderTopRightRadius: 15,
-                    borderTopLeftRadius: 15,
-                    backgroundColor: '#fff'
-                }}>
-                    {selectedImage && (
-                        <Image source={selectedImage} style={styles.selectedImage} resizeMode="contain" />
+                <View style={styles.imageContainer}>
+                    {selectedImage && selectedImage.uri ? (
+                       <Image
+                       source={{ uri: formattedUri }}
+                       style={styles.selectedImage}
+                       resizeMode="contain"
+                   />
+                    ) : (
+                        <Text style={styles.noImageText}>No valid image selected</Text>
                     )}
-
-
                 </View>
-                <View>
-                    <TouchableOpacity style={styles.selectImageButton} onPress={pickImage}>
-                        <Text style={styles.buttonText}>CLICL TO UPDATE SCREENSHOT</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View></View>
+                <TouchableOpacity style={styles.selectImageButton} onPress={pickImage}>
+                    <Text style={styles.buttonText}>CLICK TO UPDATE SCREENSHOT</Text>
+                </TouchableOpacity>
             </ScrollView>
+
             <View style={styles.bottomBox}>
-       
-                <TouchableOpacity style={{ backgroundColor: '#BA1E1E', paddingHorizontal: '40%', paddingVertical: 10, borderRadius: 6 }}>
-                    <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center', fontWeight: '500' }}>CONFIRM</Text>
+                <TouchableOpacity style={styles.confirmButton}>
+                    <Text style={styles.confirmButtonText}>CONFIRM</Text>
                 </TouchableOpacity>
             </View>
-
         </View>
-
     );
 };
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingBottom: 70,
         backgroundColor: 'rgba(153, 6, 6, 0.43)'
+    },
+    imageContainer: {
+        width: '80%',
+        height: 450,
+        marginTop: 20,
+        borderColor: '#000',
+        borderWidth: 1,
+        alignSelf: 'center',
+        borderRadius: 15,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    selectedImage: {
+        width: '100%',
+        height: '100%',
+    },
+    noImageText: {
+        fontSize: 16,
+        color: '#555',
+        textAlign: 'center',
+    },
+    selectImageButton: {
+        backgroundColor: '#BA1E1E',
+        padding: 10,
+        marginHorizontal: 37,
+        borderRadius: 6,
+        marginTop: 20,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        textAlign: 'center',
     },
     bottomBox: {
         backgroundColor: '#fff',
@@ -94,47 +119,20 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 10,
         alignItems: 'center',
-        justifyContent: 'space-around',
-        flexDirection: 'row'
-    },
-    modalContainer: {
-        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
-    modalContent: {
-        backgroundColor: '#f1e6ea',
-        borderRadius: 10,
-        width: 250
-    },
-    inputContainer: {
-        marginHorizontal: 10,
-        borderWidth: 1,
-        borderColor: '#A8A8A8',
-        marginTop: 10,
-        backgroundColor: '#fff',
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingLeft: 10,
-        borderRadius: 5,
-    },
-
-    selectedImage: {
-        width: '100%',
-        height: '100%',
-    },
-    selectImageButton: {
+    confirmButton: {
         backgroundColor: '#BA1E1E',
-        padding: 10,
-        marginHorizontal: 37
+        paddingHorizontal: '40%',
+        paddingVertical: 10,
+        borderRadius: 6,
     },
-    buttonText: {
+    confirmButtonText: {
         color: '#fff',
-        fontSize: 16,
-        textAlign: 'center'
+        fontSize: 14,
+        textAlign: 'center',
+        fontWeight: '500',
     },
 });
-
 
 export default Errorscreen;

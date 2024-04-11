@@ -1,6 +1,6 @@
 import { View, Image, Text, TouchableOpacity, ScrollView, ImageBackground, StyleSheet } from 'react-native'
 import React from 'react'
-import lodoImage from '../image/man.png';
+import lodoImage from '../image/logo.png';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/EvilIcons';
 import Ionicon from 'react-native-vector-icons/MaterialCommunityIcons';

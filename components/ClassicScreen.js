@@ -5,9 +5,7 @@ import lodoImage from '../image/man.png';
 
 const ClassicScreen = ({ challengeData, handleAcceptChallenge }) => {
     console.log(challengeData)
-
     const [mode, setMode] = useState('view');
-
     return (
         <View>
             {challengeData.map((item) => (
@@ -23,8 +21,18 @@ const ClassicScreen = ({ challengeData, handleAcceptChallenge }) => {
                             <Text style={{ color: '#BA1E1E', fontSize: 14, textAlign: 'center' }}>{`${item.coins} Coins`}</Text>
                         </View>
                         <View>
-                            <Image source={lodoImage} style={{ width: 50, height: 50, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
-                            <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{item.opponent_username}</Text>
+                            <Image
+                                source={lodoImage}
+                                style={{ width: 50, height: 50, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
+                            {item.opponent_username ? (
+                                <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>
+                                    {item.opponent_username}
+                                </Text>
+                            ) : (
+                                <Text style={{ color: '#888', fontSize: 11, textAlign: 'center' }}>
+                                    Waiting...
+                                </Text>
+                            )}
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -42,11 +50,9 @@ const ClassicScreen = ({ challengeData, handleAcceptChallenge }) => {
                             </TouchableOpacity>
                         )}
                     </View>
-
                 </View>
             ))}
         </View>
     );
 };
-
 export default ClassicScreen;
