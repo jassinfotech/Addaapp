@@ -1,24 +1,24 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, Image, TouchableOpacity,ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import lodoImage from '../image/man.png';
-import { getData } from './helperFile';
+import { postData } from './helperFile';
 
-const MyChallenges = ({ acceptchallengeData }) => {
+const MyChallenges = ({ acceptchallengeData}) => {
     const navigation = useNavigation();
-    const [challengeData, setChallengeData] = useState([]);
-    const handleGetCartData = async () => {
+
+    const handleDelete = async  (challengeId) => {
+       
+        console.log('deleted',challengeId);
         try {
-            const response = await getData('user/get-accept-challenges');
-            console.log('-----------', response);
-            setChallengeData(response);
+            const response = await postData('user/delete-challenge', { challengeId});
+            console.log('delete---------------', response);
+            var message = response.message
+            ToastAndroid.show(message, ToastAndroid.SHORT);
         } catch (error) {
-            console.error('Get request error:', error);
+            console.error('Delete request error:', error);
         }
     };
-    useEffect(() => {
-        handleGetCartData();
-    }, []);
     return (
         <View>
             <ScrollView style={{ flexDirection: 'row', paddingHorizontal: 10 }} horizontal={true} >
@@ -36,9 +36,17 @@ const MyChallenges = ({ acceptchallengeData }) => {
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        {challenge.status === 'pending' ? (
                             <View style={{ backgroundColor: '#BA1E1E', borderBottomRightRadius: 10, borderBottomLeftRadius: 10, width: '100%', padding: 3 }}>
                                 <Text style={{ color: '#fff', textAlign: 'center', fontSize: 10 }}>Cancel</Text>
                             </View>
+                        ):(
+                            <TouchableOpacity   onPress={() => {
+                                handleDelete(challenge.id);
+                            }} style={{ backgroundColor: '#BA1E1E', borderBottomRightRadius: 10, borderBottomLeftRadius: 10, width: '100%', padding: 3 }}>
+                                <Text style={{ color: '#fff', textAlign: 'center', fontSize: 10 }}>Delete</Text>
+                            </TouchableOpacity>
+                        )}
                         </View>
                     </TouchableOpacity>
                 ))}

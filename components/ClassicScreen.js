@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { getData, postData } from './helperFile';
-import lodoImage from '../image/man.png';
+import lodoImage from '../image/logo.png';
 
 const ClassicScreen = ({ challengeData, handleAcceptChallenge }) => {
     console.log(challengeData)
@@ -18,7 +18,7 @@ const ClassicScreen = ({ challengeData, handleAcceptChallenge }) => {
                         <View>
                             <Text style={{ color: '#BA1E1E', fontSize: 11, textAlign: 'center' }}>{item.code}</Text>
                             <Text style={{ color: '#000', fontSize: 14, textAlign: 'center' }}>has challenges for</Text>
-                            <Text style={{ color: '#BA1E1E', fontSize: 14, textAlign: 'center' }}>{`${item.coins} Coins`}</Text>
+                            <Text style={{ color: '#BA1E1E', fontSize: 14, textAlign: 'center' }}>{`${item.amount} Coins`}</Text>
                         </View>
                         <View>
                             <Image

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, Modal, TextInput, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, Modal, TextInput, ToastAndroid } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import Iconstar from 'react-native-vector-icons/AntDesign';
 import Icons from 'react-native-vector-icons/FontAwesome5';
@@ -7,12 +7,14 @@ import Iconsts from 'react-native-vector-icons/Ionicons';
 import Iconstss from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { Clipboard } from 'react-native';
-import lodoImage from '../image/man.png';
+import lodoImage from '../image/logo.png';
 import { postData } from './helperFile';
 
 const Contested = ({ route }) => {
     const { challengeId } = route.params || {};
     const [isCopied, setIsCopied] = useState(false);
+  
+
     const navigation = useNavigation();
     const goBack = () => {
         navigation.goBack();
@@ -38,16 +40,35 @@ const Contested = ({ route }) => {
     }
 
     const handleCancel = async (challengeId) => {
-        toggleConfirmationModal();
+        console.log('challengeId---', await challengeId.id)
         console.log('Cancelled');
         try {
-            const response = await postData('user/cancel-challenge', { challengeId });
+            const response = await postData('user/cancel-challenge', { challengeId: challengeId.id });
             console.log('---------------', response);
-            goBack()
+            var message = response.message
+            ToastAndroid.show(message, ToastAndroid.SHORT);
+            toggleConfirmationModal();
         } catch (error) {
             console.error('Cancel request error:', error);
         }
     };
+    const hemdelEntercode = async () => {
+        if (!dname || !amount) {
+            return;
+        }
+    
+        try {
+            toggleModal();
+            const response = await postData('user/enter-room-code', { dname, amount });
+            setMassges(response.massges);
+            handleGetCartData();
+            myGetCartData();
+        } catch (error) {
+            console.error('Accept challenge error:', error);
+            Alert.alert('Error', 'Failed to accept the challenge. Please try again.');
+        }
+    };
+
 
     return (
         <View style={styles.container}>
@@ -79,7 +100,7 @@ const Contested = ({ route }) => {
                         </View>
                         <View>
                             <Image source={lodoImage} style={{ width: 70, height: 70, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
-                            <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>000000</Text>
+                            <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{challengeId?.name}</Text>
                         </View>
                     </View>
                     <View style={{ marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
@@ -184,8 +205,7 @@ const Contested = ({ route }) => {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
                             <TouchableOpacity
                                 onPress={() => {
-                                    handleCancel();
-                                    navigation.navigate("Lodoking");
+                                    handleCancel(challengeId);
                                 }}
                             >
                                 <Text style={styles.yes}>Yes</Text>

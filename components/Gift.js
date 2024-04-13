@@ -35,13 +35,6 @@ const Gift = ({ navigation }) => {
               <TouchableOpacity style={{ paddingRight: 8 }} onPress={() => drawer.current?.openDrawer()}>
                 <Text> <Icon size={27} name="reorder-three-outline" color={'#fff'} /></Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate("Wallet")} style={{ width: "auto", alignItems: "flex-end", marginLeft: 15, backgroundColor: '#e84649', padding: 7, borderRadius: 7, paddingHorizontal: 12 }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text> <Iconstar size={16} name="wallet" color={'#fff'} /></Text>
-                  <Text style={{ marginHorizontal: 5, marginTop: 2 }}> <Iconst size={16} name="rupee" color={'#fff'} /></Text>
-                  <Text style={{ color: '#fff', fontWeight: '500', fontSize: 16 }}>10</Text>
-                </View>
-              </TouchableOpacity>
             </View>
             <View style={{ flexDirection: 'row' }}>
 

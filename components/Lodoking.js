@@ -4,7 +4,7 @@ import Iconstar from 'react-native-vector-icons/AntDesign';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import Iconset from 'react-native-vector-icons/Feather';
 import Iconsts from 'react-native-vector-icons/Entypo';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Mychallenges from './Mychallenges';
 import { getData, postData } from './helperFile';
 import ClassicScreen from './ClassicScreen';
@@ -15,6 +15,8 @@ const Lodoking = () => {
     const [challengeData, setChallengeData] = useState([]);
     const [acceptchallengeData, setAcceptchallengeData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [massges, setMassges] = useState('');
+
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
@@ -46,10 +48,12 @@ const Lodoking = () => {
             console.error('Get request error:', error);
         }
     };
+  
     const handleAcceptChallenge = async (challengeId) => {
-        console.log('challengeId-------', challengeId)
         try {
             const response = await postData('user/accept-challenge', { challengeId });
+            console.log("|response", response)
+            setMassges(response.massges)
             handleGetCartData();
         } catch (error) {
             console.error('Accept challenge error:', error);
@@ -59,7 +63,8 @@ const Lodoking = () => {
     const myGetCartData = async () => {
         try {
             const response = await getData('user/get-accept-challenges');
-            console.log("-------------------------================", response);
+            console.log("get-accept-challenge-------------------------================ ", response);
+            setMassges(response.massges)
             setAcceptchallengeData(response);
             setIsLoading(false);
         } catch (error) {
@@ -72,15 +77,26 @@ const Lodoking = () => {
         myGetCartData();
     }, []);
 
+    useFocusEffect(
+        React.useCallback(() => {
+          (async () => {
+            myGetCartData();
+            handleAcceptChallenge();
+            handleGetCartData();
+          })();
+        }, [])
+      );
     const hemdelcreateChallenge = async () => {
         if (!dname || !amount) {
             return;
         }
     
         try {
-            const response = await postData('user/create-challenge', { dname, amount });
-            console.log('--------', response);
             toggleModal();
+            const response = await postData('user/create-challenge', { dname, amount });
+            setMassges(response.massges);
+            handleGetCartData();
+            myGetCartData();
         } catch (error) {
             console.error('Accept challenge error:', error);
             Alert.alert('Error', 'Failed to accept the challenge. Please try again.');
@@ -194,7 +210,7 @@ const Lodoking = () => {
                                 <TouchableOpacity onPress={() => handleAmountSelection(20)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 10, paddingHorizontal: 30, borderRadius: 20, backgroundColor: '#fff' }}>
                                     <Text style={{ color: '#000', fontSize: 14, fontWeight: '500' }}>20</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => handleAmountSelection(500)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 10, paddingHorizontal: 30, borderRadius: 20, backgroundColor: '#fff' }}>
+                                <TouchableOpacity onPress={() => handleAmountSelection(50)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 10, paddingHorizontal: 30, borderRadius: 20, backgroundColor: '#fff' }}>
                                     <Text style={{ color: '#000', fontSize: 14, fontWeight: '500' }}>50</Text>
                                 </TouchableOpacity>
                             </View>

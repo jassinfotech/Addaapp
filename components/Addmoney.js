@@ -6,18 +6,22 @@ import { useNavigation } from '@react-navigation/native';
 
 const Addmoney = () => {
     const [amount, setAmount] = useState('');
+    const [paymentOptionsVisible, setPaymentOptionsVisible] = useState(false);
     const navigation = useNavigation();
 
     const goBack = () => {
         navigation.goBack();
     };
+
     const handleAmountSelection = (selectedAmount) => {
         setAmount(selectedAmount.toString());
+        setPaymentOptionsVisible(true); 
     };
 
     const handleAddMoney = () => {
         console.log('Adding money:', amount);
     };
+
     return (
         <View style={styles.container}>
             <View style={{ backgroundColor: '#BA1E1E',paddingTop:35 }}>
@@ -71,20 +75,26 @@ const Addmoney = () => {
             <View style={{ marginHorizontal: 10, marginTop: 10 }}>
                 <Text style={{ color: '#000', fontSize: 13 }}>Or enter a different amount</Text>
             </View>
-            <TouchableOpacity style={{ marginHorizontal: 10, borderWidth: 1, borderColor: '#000', marginTop: 10, borderRadius: 3 }}>
+            <TouchableOpacity
+                style={{ marginHorizontal: 10, borderWidth: 1, borderColor: '#000', marginTop: 10, borderRadius: 3 }}>
                 <TextInput
                     placeholder="Enter amount in rupees"
-                    placeholderTextColor="#999" 
-                    style={{ color: '#000', fontSize: 13, textAlign: 'center',fontWeight:'500' }}
+                    placeholderTextColor="#999"
+                    style={{ color: '#000', fontSize: 13, textAlign: 'center', fontWeight: '500' }}
                     value={amount}
-                    onChangeText={(text) => setAmount(text)}
+                    onChangeText={(text) => {
+                        setAmount(text);
+                        setPaymentOptionsVisible(text !== '');  
+                    }}
                     keyboardType="numeric"
                 />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.bottomBox}>
-                <Text style={{ color: '#fff' }} >Add </Text>
-            </TouchableOpacity>
+            {paymentOptionsVisible && (
+                <TouchableOpacity style={styles.bottomBox} onPress={handleAddMoney}>
+                    <Text style={{ color: '#fff' }}>Add</Text>
+                </TouchableOpacity>
+            )}
         </View>
     )
 }

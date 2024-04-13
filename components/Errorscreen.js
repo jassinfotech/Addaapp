@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList, } from 'react-native';
 import IconStar from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
+import upload from '../image/upload.png';
+import lodoImage from '../image/lodoking.png';
+import dropdown from '../image/dropdown.png';
+const countries = [
+    { country: 'Afghanistan', },
+    { country: 'eeeee', },
 
+];
 const Errorscreen = () => {
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImage, setSelectedImage] = useState();
+    const [formattedUri, setFormattedUri] = useState();
+    const [clicked, setClicked] = useState(false);
+    const [data, setData] = useState(countries);
+    const [selectedCountry, setSelectedCountry] = useState('');
 
     const pickImage = async () => {
         try {
@@ -17,6 +28,7 @@ const Errorscreen = () => {
 
             if (result && result.uri) {
                 setSelectedImage({ uri: result.uri });
+                setFormattedUri(result.uri);
                 console.log('Selected image URI:', result.uri);
             }
         } catch (error) {
@@ -46,25 +58,67 @@ const Errorscreen = () => {
                     </View>
                 </View>
             </View>
-
             <ScrollView>
                 <View style={styles.imageContainer}>
-                    {selectedImage && selectedImage.uri ? (
-                       <Image
-                       source={{ uri: formattedUri }}
-                       style={styles.selectedImage}
-                       resizeMode="contain"
-                   />
-                    ) : (
-                        <Text style={styles.noImageText}>No valid image selected</Text>
+                    {selectedImage ? (
+                        <Image
+                            source={lodoImage}
+                            style={styles.selectedImage}
+                            resizeMode="contain"
+                            />
+                            ) : (
+                            <Text style={styles.noImageText}>No valid image selected</Text>
                     )}
                 </View>
                 <TouchableOpacity style={styles.selectImageButton} onPress={pickImage}>
                     <Text style={styles.buttonText}>CLICK TO UPDATE SCREENSHOT</Text>
                 </TouchableOpacity>
             </ScrollView>
-
             <View style={styles.bottomBox}>
+                <View style={{ flex: 1 }}>
+                    <TouchableOpacity
+                        style={{
+                            width: 350, height: 50, borderRadius: 10, borderWidth: 0.5, alignSelf: 'center', marginTop: 20, flexDirection: 'row', justifyContent: 'space-between',
+                            alignItems: 'center', paddingLeft: 15, paddingRight: 15, marginBottom: 20
+                        }}
+                        onPress={() => {
+                            setClicked(!clicked);
+                        }}>
+                        <Text style={{ fontWeight: '600', color: '#000' }}>
+                            {selectedCountry == '' ? 'Select' : selectedCountry}
+                        </Text>
+                        {clicked ? (
+                            <Image source={dropdown}
+                                style={{ width: 18, height: 18 }}
+                            />
+                        ) : (
+                            <Image source={upload}
+                                style={{ width: 20, height: 20 }}
+                            />
+                        )}
+                    </TouchableOpacity>
+                    {clicked ? (
+                        <View
+                            style={{ elevation: 5, marginTop: 20, height: 300, alignSelf: 'center', width: '90%', backgroundColor: '#fff', borderRadius: 10, color: '#000' }}>
+                            <FlatList
+                                style={{ height: 50 }}
+                                data={data}
+                                renderItem={({ item, index }) => {
+                                    return (
+                                        <TouchableOpacity
+                                            style={{ width: 350, alignSelf: 'center', height: 50, justifyContent: 'center', borderBottomWidth: 0.5, borderColor: '#8e8e8e', color: '#000' }}
+                                            onPress={() => {
+                                                setSelectedCountry(item.country);
+                                                setClicked(!clicked);
+                                            }}>
+                                            <Text style={{ fontWeight: '600', color: '#000', paddingHorizontal: 25 }}>{item.country}</Text>
+                                        </TouchableOpacity>
+                                    );
+                                }}
+                            />
+                        </View>
+                    ) : null}
+                </View>
                 <TouchableOpacity style={styles.confirmButton}>
                     <Text style={styles.confirmButtonText}>CONFIRM</Text>
                 </TouchableOpacity>
