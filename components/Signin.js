@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import GoogleIcon from 'react-native-vector-icons/AntDesign';
 import FontAwesomekey from 'react-native-vector-icons/FontAwesome6';
-import GoogleIco from 'react-native-vector-icons/Entypo';
 import lodoImage from '../image/logo.png';
 import LinearGradient from 'react-native-linear-gradient';
 import { signIn } from './authService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNRestart from 'react-native-restart'
 const Signin = () => {
     const [showPassword, setShowPassword] = useState(false);
     const navigation = useNavigation();
@@ -20,7 +20,6 @@ const Signin = () => {
     useEffect(() => {
         valueCheck();
     }, [value]);
-
     const valueCheck = () => {
         const trimmedValue = value.trim();
         if (trimmedValue.length === 10 && /^\d+$/.test(trimmedValue)) {
@@ -40,7 +39,9 @@ const Signin = () => {
             console.log('---------------------', response);
             if (response.status === 'success') {
                 console.log('User signed up successfully!', response);
-                navigation.navigate('Home', response);
+                await AsyncStorage.setItem('token', response.token)
+                RNRestart.Restart()
+                navigation.navigate('Home');
             } else {
                 console.error('Error signing up:', response);
                 setError(response.message || 'An error occurred during signin');

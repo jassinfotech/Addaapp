@@ -4,8 +4,8 @@ import IconStar from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 import upload from '../image/upload.png';
-import lodoImage from '../image/lodoking.png';
 import dropdown from '../image/dropdown.png';
+import axios from 'axios'
 const countries = [
     { country: 'Afghanistan', },
     { country: 'eeeee', },
@@ -13,9 +13,8 @@ const countries = [
 ];
 const Errorscreen = () => {
     const [selectedImage, setSelectedImage] = useState();
-    const [formattedUri, setFormattedUri] = useState();
+    const [data, setData] = useState();
     const [clicked, setClicked] = useState(false);
-    const [data, setData] = useState(countries);
     const [selectedCountry, setSelectedCountry] = useState('');
 
     const pickImage = async () => {
@@ -24,22 +23,56 @@ const Errorscreen = () => {
                 type: [DocumentPicker.types.images],
             });
 
-            console.log('--------------', result);
-
-            if (result && result.uri) {
-                setSelectedImage({ uri: result.uri });
-                setFormattedUri(result.uri);
-                console.log('Selected image URI:', result.uri);
+            console.log('Cropped Image:', result);
+            if (!Array.isArray(result) || result.length === 0) {
+                throw new Error('Invalid image selection');
             }
+            const selectedImage = {
+                uri: result[0].uri,
+                type: 'image/jpeg',
+                name: new Date().getTime() + '_banner.jpg',
+            };
+
+            console.log('Selected Image:', selectedImage);
+
+            setSelectedImage(selectedImage);
         } catch (error) {
             if (DocumentPicker.isCancel(error)) {
-                console.log('User cancelled image picker');
+                console.log('Image selection canceled');
             } else {
-                console.log('DocumentPicker Error: ', error);
+                console.log('Image selection/cropping failed:', error);
+                Alert.alert('Error', 'Failed to select image. Please try again.');
             }
         }
     };
 
+
+    const handleScreenshort = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("userEmail", userEmail);
+
+            if (selectedImage) {
+                formData.append("file", {
+                    name: 'screenshot.jpg',
+                    type: 'image/jpeg',
+                    uri: selectedImage.uri,
+                });
+            }
+            try {
+                const response = await postData('user/user/screenshot',{formData});
+                // console.log('---------------', response);
+                var message = response.message
+                ToastAndroid.show(message, ToastAndroid.SHORT);
+            } catch (error) {
+                console.error('screenshot request error:', error);
+            }
+            
+
+        } catch (error) {
+            console.error('Error while saving event:', error);
+        }
+    };
     const navigation = useNavigation();
 
     const goBack = () => {
@@ -62,12 +95,12 @@ const Errorscreen = () => {
                 <View style={styles.imageContainer}>
                     {selectedImage ? (
                         <Image
-                            source={lodoImage}
+                            source={{ uri: selectedImage.uri }}
                             style={styles.selectedImage}
                             resizeMode="contain"
-                            />
-                            ) : (
-                            <Text style={styles.noImageText}>No valid image selected</Text>
+                        />
+                    ) : (
+                        <Text style={styles.noImageText}>No valid image selected</Text>
                     )}
                 </View>
                 <TouchableOpacity style={styles.selectImageButton} onPress={pickImage}>
@@ -97,12 +130,12 @@ const Errorscreen = () => {
                             />
                         )}
                     </TouchableOpacity>
-                    {clicked ? (
+                    {/* {clicked ? (
                         <View
                             style={{ elevation: 5, marginTop: 20, height: 300, alignSelf: 'center', width: '90%', backgroundColor: '#fff', borderRadius: 10, color: '#000' }}>
                             <FlatList
                                 style={{ height: 50 }}
-                                data={data}
+                                data={country}
                                 renderItem={({ item, index }) => {
                                     return (
                                         <TouchableOpacity
@@ -117,9 +150,13 @@ const Errorscreen = () => {
                                 }}
                             />
                         </View>
-                    ) : null}
+                    ) : null} */}
                 </View>
-                <TouchableOpacity style={styles.confirmButton}>
+                <TouchableOpacity
+                    onPress={() => {
+                        handleScreenshort();
+                    }}
+                    style={styles.confirmButton}>
                     <Text style={styles.confirmButtonText}>CONFIRM</Text>
                 </TouchableOpacity>
             </View>

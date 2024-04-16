@@ -1,10 +1,9 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { getData, postData } from './helperFile';
 import lodoImage from '../image/logo.png';
 
 const ClassicScreen = ({ challengeData, handleAcceptChallenge }) => {
-    console.log(challengeData)
+    // console.log("in classice Screen",challengeData)
     const [mode, setMode] = useState('view');
     return (
         <View>

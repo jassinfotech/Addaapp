@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, DrawerLayoutAndroid, ScrollView, TouchableOpacity, Image,  } from 'react-native';
+import { View, Text, StyleSheet, DrawerLayoutAndroid, ScrollView, TouchableOpacity, Image, } from 'react-native';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconstar from 'react-native-vector-icons/Entypo';
@@ -18,24 +18,24 @@ import cricket from '../image/cricket.png';
 import call from '../image/call.png';
 import freefires from '../image/freefires.png';
 import Sidescreen from './Sidescreen';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Sliderscreen from './Sliderscreen';
 import { getData } from './helperFile';
 
 const Home = ({ navigation }) => {
-  const[currentb,setCurrentb]=useState('');
+  const [currentb, setCurrentb] = useState('');
   const drawer = useRef(null);
   const [drawerPosition] = useState('left');
 
   const handleGetuserwallet = async () => {
     try {
-        const response = await getData('user/user-wallet');
-       console.log('get-user-wallet------------',response)
-       setCurrentb(response.WalletBalance)
+      const response = await getData('user/user-wallet');
+      // console.log('get-user-wallet------------', response)
+      setCurrentb(response.WalletBalance)
     } catch (error) {
-        console.error('Get request error:', error);
+      console.error('Get request error:', error);
     }
-};
+  };
 
 
   const navigationView = () => (
@@ -45,7 +45,17 @@ const Home = ({ navigation }) => {
   );
   useEffect(() => {
     handleGetuserwallet();
-}, []);
+  }, []);
+  
+
+  useFocusEffect(
+    React.useCallback(() => {
+        (async () => {
+          handleGetuserwallet();
+        })();
+    }, [])
+);
+  
   return (
     <DrawerLayoutAndroid
       ref={drawer}
@@ -64,7 +74,11 @@ const Home = ({ navigation }) => {
                 <View style={{ flexDirection: 'row' }}>
                   <Text> <Iconstar size={16} name="wallet" color={'#fff'} /></Text>
                   <Text style={{ marginHorizontal: 5, marginTop: 2 }}> <Iconst size={16} name="rupee" color={'#fff'} /></Text>
-                  <Text style={{ color: '#fff', fontWeight: '500', fontSize: 16 }}>{currentb}</Text>
+                  {currentb.status === 'pending' ? (
+                    <Text style={{ color: '#fff', fontWeight: '500', fontSize: 16 }}>0</Text>
+                  ) : (
+                    <Text style={{ color: '#fff', fontWeight: '500', fontSize: 16 }}>{currentb}</Text>
+                  )}
                 </View>
               </TouchableOpacity>
             </View>
@@ -127,7 +141,7 @@ const Home = ({ navigation }) => {
                 <Image source={callduty} style={styles.callduty} />
 
               </TouchableOpacity>
-            </View> */}
+            </View> */} 
             <View>
               <Text style={styles.heding}>ESPORTS</Text>
             </View>

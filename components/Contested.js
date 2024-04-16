@@ -13,62 +13,74 @@ import { postData } from './helperFile';
 const Contested = ({ route }) => {
     const { challengeId } = route.params || {};
     const [isCopied, setIsCopied] = useState(false);
-  
-
     const navigation = useNavigation();
     const goBack = () => {
         navigation.goBack();
     };
     const [isModalVisible, setModalVisible] = useState(false);
     const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(false);
+    const [showDeletedConfirmation, setShowDeletedConfirmation] = useState(false);
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
     const toggleConfirmationModal = () => {
         setConfirmationModalVisible(!isConfirmationModalVisible);
     };
-    const [amount, setAmount] = useState('');
+    const showDeleteConfirmation = () => {
+        setShowDeletedConfirmation(!showDeletedConfirmation);
+    };
+    const [code, setCode] = useState('');
+
     const showCancelConfirmation = () => {
         toggleConfirmationModal();
     };
 
 
     const copyRoomCodeToClipboard = () => {
-        Clipboard.setString('Your room code');
+        Clipboard.setString(challengeId?.rooms);
         setIsCopied(true);
         setTimeout(() => setIsCopied(false), 2000);
     }
 
     const handleCancel = async (challengeId) => {
         console.log('challengeId---', await challengeId.id)
-        console.log('Cancelled');
         try {
             const response = await postData('user/cancel-challenge', { challengeId: challengeId.id });
-            console.log('---------------', response);
+            // console.log('---------------', response);
             var message = response.message
             ToastAndroid.show(message, ToastAndroid.SHORT);
             toggleConfirmationModal();
+            goBack();
         } catch (error) {
             console.error('Cancel request error:', error);
         }
     };
     const hemdelEntercode = async () => {
-        if (!dname || !amount) {
-            return;
-        }
-    
         try {
             toggleModal();
-            const response = await postData('user/enter-room-code', { dname, amount });
-            setMassges(response.massges);
-            handleGetCartData();
-            myGetCartData();
+            const response = await postData('user/enter-room-code', {challengeId: challengeId.id, roomCode:code});
+            console.log('enter room code', response)
+            var message = response.message
+            ToastAndroid.show(message, ToastAndroid.SHORT);
         } catch (error) {
             console.error('Accept challenge error:', error);
             Alert.alert('Error', 'Failed to accept the challenge. Please try again.');
         }
     };
 
+    const handleDelete = async (challengeId) => {
+        console.log('deleted', await challengeId.id);
+        try {
+            const response = await postData('user/delete-challenge', { challengeId: challengeId.id });
+            // console.log('---------------', response);
+            var message = response.message
+            ToastAndroid.show(message, ToastAndroid.SHORT);
+            showDeleteConfirmation();
+            goBack();
+        } catch (error) {
+            console.error('Delete request error:', error);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -93,14 +105,13 @@ const Contested = ({ route }) => {
                         <View>
                             <Image source={lodoImage} style={{ width: 70, height: 70, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
                             <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{challengeId?.name}</Text>
-
                         </View>
                         <View>
                             <Text style={{ color: '#000', fontSize: 11, textAlign: 'center', justifyContent: 'center', marginTop: 30 }}>VS</Text>
                         </View>
                         <View>
                             <Image source={lodoImage} style={{ width: 70, height: 70, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
-                            <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{challengeId?.name}</Text>
+                            <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{challengeId?.opponent_username}</Text>
                         </View>
                     </View>
                     <View style={{ marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
@@ -112,30 +123,43 @@ const Contested = ({ route }) => {
                             <Text style={{ color: '#055405', fontSize: 14 }}>Winning</Text>
                             <Text style={{ color: '#055405', fontSize: 14 }}>coins-10.0</Text>
                         </View>
+        
+                            <View style={{ borderWidth: 0.9, borderColor: '#000', paddingVertical: 5, borderRadius: 7, paddingHorizontal: 10, width: '32%', flexDirection: 'row' }}>
+                                <Text style={{ color: '#BA1E1E', fontSize: 14 }}>{challengeId?.rooms}</Text>
+                                <TouchableOpacity onPress={copyRoomCodeToClipboard}>
+                                    <Text style={{ marginTop: 23, textAlign: 'center', right: 20 }}>
+                                        <Iconstss size={25} name="file-copy" color={'#650505'} />
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                   
 
-                        <View style={{ borderWidth: 0.9, borderColor: '#000', paddingVertical: 5, borderRadius: 7, paddingHorizontal: 10, width: '32%', flexDirection: 'row' }}>
-                            <Text style={{ color: '#BA1E1E', fontSize: 14 }}>Update Room Code To Proceed</Text>
-                            <TouchableOpacity onPress={copyRoomCodeToClipboard}>
-                                <Text style={{ marginTop: 23, textAlign: 'center', right: 20 }}>
-                                    <Iconstss size={25} name="file-copy" color={'#650505'} />
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-
+                   
                     </View>
-
-
                 </View>
                 <View style={{ justifyContent: 'space-between', marginHorizontal: 25, marginTop: 25 }}>
-                    <TouchableOpacity onPress={toggleModal} style={{ backgroundColor: '#BA1E1E', padding: 13, width: '100%', marginBottom: 10, borderRadius: 30 }}>
-                        <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>Update Room Code</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={{ backgroundColor: '#BA1E1E', padding: 13, width: '100%', borderRadius: 30 }}
-                        onPress={showCancelConfirmation}
-                    >
-                        <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>CANCEL</Text>
-                    </TouchableOpacity>
+
+                        <TouchableOpacity onPress={toggleModal} style={{ backgroundColor: '#BA1E1E', padding: 13, width: '100%', marginBottom: 10, borderRadius: 30 }}>
+                            <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>Update Room Code</Text>
+                        </TouchableOpacity>
+                 
+
+
+                    {challengeId.status === 'canceled' ? (
+                        <TouchableOpacity
+                            style={{ backgroundColor: '#BA1E1E', padding: 13, width: '100%', borderRadius: 30 }}
+                            onPress={showDeleteConfirmation}
+                        >
+                            <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>Delete</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity
+                            style={{ backgroundColor: '#BA1E1E', padding: 13, width: '100%', borderRadius: 30 }}
+                            onPress={showCancelConfirmation}
+                        >
+                            <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>CANCEL</Text>
+                        </TouchableOpacity>
+                    )}
 
                 </View>
             </ScrollView>
@@ -174,15 +198,15 @@ const Contested = ({ route }) => {
                                 <Icons name="gamepad" size={20} color="#000" />
                             </View>
                             <TextInput
-                                placeholder="Enter"
+                                placeholder="Enter your room code"
                                 placeholderTextColor="#999"
                                 style={styles.input}
-                                value={amount}
-                                onChangeText={(text) => setAmount(text)}
+                                value={code}
+                                onChangeText={(text) => setCode(text)}
                                 keyboardType="numeric"
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={toggleModal} style={{ backgroundColor: '#BA1E1E', padding: 10, borderRadius: 20, marginHorizontal: 20, marginVertical: 15, marginTop: 20 }}>
+                        <TouchableOpacity onPress={hemdelEntercode} style={{ backgroundColor: '#BA1E1E', padding: 10, borderRadius: 20, marginHorizontal: 20, marginVertical: 15, marginTop: 20 }}>
                             <Text style={{ color: '#fff', textAlign: 'center', fontSize: 15, fontWeight: '500' }}>Add challenges</Text>
                         </TouchableOpacity>
 
@@ -213,6 +237,36 @@ const Contested = ({ route }) => {
                             <TouchableOpacity
 
                                 onPress={toggleConfirmationModal}
+                            >
+                                <Text style={styles.yes}>No</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={showDeletedConfirmation}
+                onRequestClose={showDeleteConfirmation}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent1}>
+                        <Text style={{ color: '#000', textAlign: 'center', fontSize: 16, marginBottom: 15 }}>
+                            Confirm Deleted
+                        </Text>
+                        <Text style={{ color: '#000', paddingBottom: 10, textAlign: 'center', fontSize: 14 }}>Are you sure want to Delete this challenge</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
+                            <TouchableOpacity
+                                 onPress={() => {
+                                    handleDelete(challengeId);
+                                }}
+                            >
+                                <Text style={styles.yes}>Yes</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+
+                                onPress={showDeleteConfirmation}
                             >
                                 <Text style={styles.yes}>No</Text>
                             </TouchableOpacity>

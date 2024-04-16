@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, Modal, TextInput, RefreshControl } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, Modal, TextInput, RefreshControl, ToastAndroid, Alert } from 'react-native';
 import React, { useState, useCallback, useEffect } from 'react';
 import Iconstar from 'react-native-vector-icons/AntDesign';
 import Icons from 'react-native-vector-icons/FontAwesome5';
@@ -38,22 +38,34 @@ const Lodoking = () => {
 
     const handleAmountSelection = (selectedAmount) => {
         setAmount(selectedAmount.toString());
+
     };
+
 
     const handleGetCartData = async () => {
         try {
+            // console.log('10 sec---------------------------------------------')
             const response = await getData('user/get-all-challenges');
             setChallengeData(response);
         } catch (error) {
             console.error('Get request error:', error);
         }
     };
-  
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            handleGetCartData(); 
+        }, 10000); 
+       
+        return () => clearInterval(intervalId);
+    }, []); 
+
+
     const handleAcceptChallenge = async (challengeId) => {
         try {
             const response = await postData('user/accept-challenge', { challengeId });
-            console.log("|response", response)
-            setMassges(response.massges)
+            // console.log("accept-challenge-------------------------================ ", response);
+            // console.log("|response", response)
+            ToastAndroid.show('You cannot accept a challenge you created', ToastAndroid.SHORT);
             handleGetCartData();
         } catch (error) {
             console.error('Accept challenge error:', error);
@@ -63,12 +75,12 @@ const Lodoking = () => {
     const myGetCartData = async () => {
         try {
             const response = await getData('user/get-accept-challenges');
-            console.log("get-accept-challenge-------------------------================ ", response);
-            setMassges(response.massges)
+            console.log("response-------------------------",response)
+    
             setAcceptchallengeData(response);
             setIsLoading(false);
         } catch (error) {
-            console.error('Get request error:', error);
+            console.error('Get request error----------:', error);
         }
     };
 
@@ -79,15 +91,15 @@ const Lodoking = () => {
 
     useFocusEffect(
         React.useCallback(() => {
-          (async () => {
-            myGetCartData();
-            handleAcceptChallenge();
-            handleGetCartData();
-          })();
+            (async () => {
+                myGetCartData();
+                handleGetCartData();
+            })();
         }, [])
-      );
+    );
     const hemdelcreateChallenge = async () => {
         if (!dname || !amount) {
+            ToastAndroid.show('Please enter both challenge name and amount.', ToastAndroid.SHORT);
             return;
         }
     
@@ -102,6 +114,7 @@ const Lodoking = () => {
             Alert.alert('Error', 'Failed to accept the challenge. Please try again.');
         }
     };
+
     if (isLoading) {
         return (
             <View style={styles.loadingContainer}>

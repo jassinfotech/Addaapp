@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 const BASE_URL = 'https://backend.progame.co.in';
 let headers = {
   'Content-Type': 'application/json',
@@ -7,7 +8,6 @@ let headers = {
 const setAuthToken = async () => {
   try {
     const token = await AsyncStorage.getItem('token');
-    console.log('--------',token)
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     } else {
@@ -22,7 +22,6 @@ const handleTokenExpiration =   (response) => {
   if (response.status === 401) {
     console.log('Token has expired. Redirecting to login page.');
     AsyncStorage.removeItem('token');
-   console.log('removeItem done');
   }
   return response;
 };
@@ -54,4 +53,25 @@ const getData = async (endpoint) => {
   }
 };
 
-export { setAuthToken, postData, getData, BASE_URL };
+
+
+const postDatafrom = async (endpoint, data) => {
+  await setAuthToken(); 
+
+  try {
+      const token = await AsyncStorage.getItem('token'); 
+
+      const response = await axios.post(`${BASE_URL}/${endpoint}`, data, {
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`, 
+          },
+      });
+
+  } catch (error) {
+      throw error; 
+  }
+};
+
+
+export { setAuthToken, postData, getData, postDatafrom, BASE_URL };
