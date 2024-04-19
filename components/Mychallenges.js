@@ -4,9 +4,9 @@ import { useNavigation } from '@react-navigation/native';
 import lodoImage from '../image/logo.png';
 
 const MyChallenges = ({ acceptchallengeData }) => {
-    // console.log('acceptchallengeData---------',acceptchallengeData)
+    console.log('acceptchallengeData---------', acceptchallengeData)
     const navigation = useNavigation();
-   
+
     return (
         <View>
             <ScrollView style={{ flexDirection: 'row', paddingHorizontal: 10 }} horizontal={true}>
@@ -18,8 +18,11 @@ const MyChallenges = ({ acceptchallengeData }) => {
                     >
                         <View style={{ padding: 5 }}>
                             <View>
-                                <Text style={{ color: '#000', fontSize: 11, textAlign: 'center', marginTop: 0 }}>Your challenge has been </Text>
-                                <Text style={{ color: '#BA1E1E', fontSize: 11, textAlign: 'center', marginTop: 10 }}>{challenge.amount}</Text>
+                                <Text style={{ color: '#000', fontSize: 11, textAlign: 'center', marginTop: 10 }}>
+                                    {challenge.opponent_username} has accepted this {'\n'}
+                                    challenge
+                                </Text>
+                                 <Text style={{ color: '#BA1E1E', fontSize: 11, textAlign: 'center', marginTop: 10 }}>{challenge.amount}</Text>
                             </View>
                             <View>
                                 <Image source={lodoImage} style={{ width: 30, height: 30, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
@@ -27,7 +30,7 @@ const MyChallenges = ({ acceptchallengeData }) => {
                             </View>
                         </View>
                         {challenge.status === 'canceled' ? (
-                            <TouchableOpacity  style={{ backgroundColor: '#BA1E1E', borderBottomRightRadius: 10, borderBottomLeftRadius: 10, width: '100%', padding: 3 }}>
+                            <TouchableOpacity style={{ backgroundColor: '#BA1E1E', borderBottomRightRadius: 10, borderBottomLeftRadius: 10, width: '100%', padding: 3 }}>
                                 <Text style={{ color: '#fff', textAlign: 'center', fontSize: 10 }}>Delete</Text>
                             </TouchableOpacity>
                         ) : (

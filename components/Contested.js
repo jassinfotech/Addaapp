@@ -58,7 +58,7 @@ const Contested = ({ route }) => {
     const hemdelEntercode = async () => {
         try {
             toggleModal();
-            const response = await postData('user/enter-room-code', {challengeId: challengeId.id, roomCode:code});
+            const response = await postData('user/enter-room-code', { challengeId: challengeId.id, roomCode: code });
             console.log('enter room code', response)
             var message = response.message
             ToastAndroid.show(message, ToastAndroid.SHORT);
@@ -111,38 +111,49 @@ const Contested = ({ route }) => {
                         </View>
                         <View>
                             <Image source={lodoImage} style={{ width: 70, height: 70, borderWidth: 1, borderColor: '#BA1E1E', borderRadius: 50, alignSelf: 'center' }} />
-                            <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>{challengeId?.opponent_username}</Text>
+                            {challengeId.opponent_username ? (
+                                <Text style={{ color: '#000', fontSize: 11, textAlign: 'center' }}>
+                                    {challengeId?.opponent_username}
+                                </Text>
+                            ) : (
+                                <Text style={{ color: '#888', fontSize: 11, textAlign: 'center' }}>
+                                    Waiting...
+                                </Text>
+                            )}
                         </View>
                     </View>
                     <View style={{ marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
                         <View style={{ borderWidth: 0.9, borderColor: '#000', paddingVertical: 5, borderRadius: 7, paddingHorizontal: 10, width: '32%' }}>
                             <Text style={{ color: '#10A910', fontSize: 14 }}>challenged</Text>
-                            <Text style={{ color: '#10A910', fontSize: 14 }}>coins-10.0</Text>
+                            <Text style={{ color: '#10A910', fontSize: 14 }}>coins-{challengeId?.amount}</Text>
                         </View>
                         <View style={{ borderWidth: 0.9, borderColor: '#000', paddingVertical: 5, borderRadius: 7, paddingHorizontal: 10, width: '32%' }}>
                             <Text style={{ color: '#055405', fontSize: 14 }}>Winning</Text>
                             <Text style={{ color: '#055405', fontSize: 14 }}>coins-10.0</Text>
                         </View>
-        
-                            <View style={{ borderWidth: 0.9, borderColor: '#000', paddingVertical: 5, borderRadius: 7, paddingHorizontal: 10, width: '32%', flexDirection: 'row' }}>
+                        <View style={{ borderWidth: 0.9, borderColor: '#000', paddingVertical: 5, borderRadius: 7, paddingHorizontal: 10, width: '32%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                            {challengeId.status === 'pending' ? (
+                                <Text style={{ color: '#888', fontSize: 12, textAlign: 'center' }}>
+                                    Loading...
+                                </Text>) : (
                                 <Text style={{ color: '#BA1E1E', fontSize: 14 }}>{challengeId?.rooms}</Text>
-                                <TouchableOpacity onPress={copyRoomCodeToClipboard}>
-                                    <Text style={{ marginTop: 23, textAlign: 'center', right: 20 }}>
-                                        <Iconstss size={25} name="file-copy" color={'#650505'} />
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-                   
+                            )}
+                            <TouchableOpacity onPress={copyRoomCodeToClipboard} style={{ alignItems: 'center' }}>
+                                <Iconstss size={25} name="file-copy" color={'#650505'} />
+                            </TouchableOpacity>
+                        </View>
 
-                   
+
+
+
                     </View>
                 </View>
                 <View style={{ justifyContent: 'space-between', marginHorizontal: 25, marginTop: 25 }}>
 
-                        <TouchableOpacity onPress={toggleModal} style={{ backgroundColor: '#BA1E1E', padding: 13, width: '100%', marginBottom: 10, borderRadius: 30 }}>
-                            <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>Update Room Code</Text>
-                        </TouchableOpacity>
-                 
+                    <TouchableOpacity onPress={toggleModal} style={{ backgroundColor: '#BA1E1E', padding: 13, width: '100%', marginBottom: 10, borderRadius: 30 }}>
+                        <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>Update Room Code</Text>
+                    </TouchableOpacity>
+
 
 
                     {challengeId.status === 'canceled' ? (
@@ -169,15 +180,15 @@ const Contested = ({ route }) => {
                 </View>
             )}
             <View style={styles.bottomBox}>
-                <TouchableOpacity style={{ width: '25%' }}>
+                <TouchableOpacity style={{ width: '25%' }} onPress={() => navigation.navigate("Errorscreen",{ challengeId: challengeId.id })}>
                     <Text style={{ marginTop: 1, textAlign: 'center' }}> <Iconsts size={24} name="trophy-outline" color={'#fff'} /></Text>
                     <Text style={{ color: '#fff', fontSize: 10, textAlign: 'center', marginTop: 4 }}>WON</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ width: '25%' }}>
+                <TouchableOpacity style={{ width: '25%' }} onPress={() => navigation.navigate("Errorscreen",{ challengeId: challengeId.id })}>
                     <Text style={{ marginTop: 1, textAlign: 'center' }}> <Iconsts size={25} name="sad-outline" color={'#fff'} /></Text>
                     <Text style={{ color: '#fff', fontSize: 10, textAlign: 'center', marginTop: 5 }}> LOST</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ width: '25%' }} onPress={() => navigation.navigate("Errorscreen")} >
+                <TouchableOpacity style={{ width: '25%' }} onPress={() => navigation.navigate("Errorscreen",{ challengeId: challengeId.id })} >
                     <Text style={{ marginTop: 1, textAlign: 'center' }}> <Iconset size={25} name="circle-with-cross" color={'#fff'} /></Text>
                     <Text style={{ color: '#fff', fontSize: 10, textAlign: 'center', marginTop: 4 }}>ERROR </Text>
                 </TouchableOpacity>
@@ -258,7 +269,7 @@ const Contested = ({ route }) => {
                         <Text style={{ color: '#000', paddingBottom: 10, textAlign: 'center', fontSize: 14 }}>Are you sure want to Delete this challenge</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
                             <TouchableOpacity
-                                 onPress={() => {
+                                onPress={() => {
                                     handleDelete(challengeId);
                                 }}
                             >

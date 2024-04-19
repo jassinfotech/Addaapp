@@ -1,22 +1,32 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList, } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList,ToastAndroid } from 'react-native';
 import IconStar from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 import upload from '../image/upload.png';
 import dropdown from '../image/dropdown.png';
-import axios from 'axios'
-const countries = [
-    { country: 'Afghanistan', },
-    { country: 'eeeee', },
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const reasions = [
+    { reasion: 'WON' },
+    { reasion: 'LOST' },
+    { reasion: 'ERROR' },
 
 ];
-const Errorscreen = () => {
+const Errorscreen = ({ route }) => {
+    const { challengeId } = route.params || {};
+    console.log('challengeId----', challengeId)
     const [selectedImage, setSelectedImage] = useState();
     const [data, setData] = useState();
     const [clicked, setClicked] = useState(false);
-    const [selectedCountry, setSelectedCountry] = useState('');
+    const [selectedreasion, setSelectedreasion] = useState('');
 
+
+    const handlereasionSelect = (reasion) => {
+        setSelectedreasion(reasion);
+        setClicked(false);
+    };
     const pickImage = async () => {
         try {
             const result = await DocumentPicker.pick({
@@ -50,7 +60,8 @@ const Errorscreen = () => {
     const handleScreenshort = async () => {
         try {
             const formData = new FormData();
-            formData.append("userEmail", userEmail);
+            formData.append("challengeId", challengeId);
+            formData.append("reasion", selectedreasion);
 
             if (selectedImage) {
                 formData.append("file", {
@@ -60,14 +71,22 @@ const Errorscreen = () => {
                 });
             }
             try {
-                const response = await postData('user/user/screenshot',{formData});
-                // console.log('---------------', response);
-                var message = response.message
-                ToastAndroid.show(message, ToastAndroid.SHORT);
+                const token = await AsyncStorage.getItem('token');
+                const response = await axios.post("https://backend.progame.co.in/user/screenshot", formData, {
+                    headers: { "Content-Type": "multipart/form-data", "Authorization": token }
+                });
+
+                console.log("res--------------", response.data)
+                if (response.data.status === 'success') {
+                    goBack();
+                } else {
+                    var message = response.data.message
+                    ToastAndroid.show(message, ToastAndroid.SHORT);
+                }
             } catch (error) {
                 console.error('screenshot request error:', error);
             }
-            
+
 
         } catch (error) {
             console.error('Error while saving event:', error);
@@ -118,7 +137,7 @@ const Errorscreen = () => {
                             setClicked(!clicked);
                         }}>
                         <Text style={{ fontWeight: '600', color: '#000' }}>
-                            {selectedCountry == '' ? 'Select' : selectedCountry}
+                            {selectedreasion == '' ? 'Select regain' : selectedreasion}
                         </Text>
                         {clicked ? (
                             <Image source={dropdown}
@@ -130,27 +149,20 @@ const Errorscreen = () => {
                             />
                         )}
                     </TouchableOpacity>
-                    {/* {clicked ? (
-                        <View
-                            style={{ elevation: 5, marginTop: 20, height: 300, alignSelf: 'center', width: '90%', backgroundColor: '#fff', borderRadius: 10, color: '#000' }}>
-                            <FlatList
-                                style={{ height: 50 }}
-                                data={country}
-                                renderItem={({ item, index }) => {
-                                    return (
-                                        <TouchableOpacity
-                                            style={{ width: 350, alignSelf: 'center', height: 50, justifyContent: 'center', borderBottomWidth: 0.5, borderColor: '#8e8e8e', color: '#000' }}
-                                            onPress={() => {
-                                                setSelectedCountry(item.country);
-                                                setClicked(!clicked);
-                                            }}>
-                                            <Text style={{ fontWeight: '600', color: '#000', paddingHorizontal: 25 }}>{item.country}</Text>
-                                        </TouchableOpacity>
-                                    );
-                                }}
-                            />
-                        </View>
-                    ) : null} */}
+                    {clicked && (
+                        <FlatList
+                            style={styles.dropdownList}
+                            data={reasions}
+                            keyExtractor={(item, index) => `${item.reasion}-${index}`}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    style={styles.dropdownItem}
+                                    onPress={() => handlereasionSelect(item.reasion)}>
+                                    <Text style={styles.dropdownItemText}>{item.reasion}</Text>
+                                </TouchableOpacity>
+                            )}
+                        />
+                    )}
                 </View>
                 <TouchableOpacity
                     onPress={() => {
@@ -224,6 +236,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: '500',
     },
+    dropdownItemText: {
+        color: '#000',
+        paddingVertical: 7,
+        fontSize: 14,
+        fontWeight: '500',
+
+    },
+    dropdownList: {
+        marginBottom: 10
+    }
 });
 
 export default Errorscreen;

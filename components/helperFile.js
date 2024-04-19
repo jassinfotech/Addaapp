@@ -62,10 +62,7 @@ const postDatafrom = async (endpoint, data) => {
       const token = await AsyncStorage.getItem('token'); 
 
       const response = await axios.post(`${BASE_URL}/${endpoint}`, data, {
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`, 
-          },
+        headers: { "Content-Type": "multipart/form-data", "Authorization": token }
       });
 
   } catch (error) {
