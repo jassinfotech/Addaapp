@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native'
 import Iconstar from 'react-native-vector-icons/AntDesign';
-import Iconst from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
 const Addmoney = () => {
@@ -15,16 +14,15 @@ const Addmoney = () => {
 
     const handleAmountSelection = (selectedAmount) => {
         setAmount(selectedAmount.toString());
-        setPaymentOptionsVisible(true); 
+        setPaymentOptionsVisible(true);
     };
 
     const handleAddMoney = () => {
         console.log('Adding money:', amount);
     };
-
     return (
         <View style={styles.container}>
-            <View style={{ backgroundColor: '#BA1E1E',paddingTop:35 }}>
+            <View style={{ backgroundColor: '#BA1E1E', paddingTop: 35 }}>
                 <View style={{ padding: 15, flexDirection: 'row', justifyContent: 'space-between' }}>
 
                     <View style={{ flexDirection: 'row', marginTop: 7 }}>
@@ -37,37 +35,30 @@ const Addmoney = () => {
                     </View>
 
                 </View>
-                <View style={{ paddingHorizontal: 10, paddingVertical: 10, flexDirection: 'row' }}>
-                    <Text style={{ color: '#fff', fontSize: 12, marginTop: 3 }}>Total Balance:</Text>
-                    <View style={{ flexDirection: 'row', }}>
-                        <Text> <Iconst size={11} name="rupee" color={'#fff'} /></Text>
-                        <Text style={{ color: '#fff', fontSize: 12, marginLeft: 3, marginTop: 3 }}>10.00</Text>
-                    </View>
-                </View>
             </View>
-            <View style={{ marginHorizontal: 10, marginTop: 10 }}>
+            <View style={{ marginHorizontal: 10, marginTop: 20 }}>
                 <Text style={{ color: '#000', fontSize: 13 }}>Select Amount</Text>
             </View>
             <View style={{ marginHorizontal: 10 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-                    <TouchableOpacity   onPress={() => handleAmountSelection(100)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 45, borderRadius: 8 }}>
+                    <TouchableOpacity onPress={() => handleAmountSelection(100)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 45, borderRadius: 8 }}>
                         <Text style={{ color: '#000', fontSize: 14, fontWeight: '500' }}>100</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity   onPress={() => handleAmountSelection(200)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 45, borderRadius: 8 }}>
+                    <TouchableOpacity onPress={() => handleAmountSelection(200)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 45, borderRadius: 8 }}>
                         <Text style={{ color: '#000', fontSize: 14, fontWeight: '500' }}>200</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity   onPress={() => handleAmountSelection(500)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 45, borderRadius: 8 }}>
+                    <TouchableOpacity onPress={() => handleAmountSelection(500)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 45, borderRadius: 8 }}>
                         <Text style={{ color: '#000', fontSize: 14, fontWeight: '500' }}>500</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-                    <TouchableOpacity   onPress={() => handleAmountSelection(1000)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 40, borderRadius: 8 }}>
+                    <TouchableOpacity onPress={() => handleAmountSelection(1000)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 40, borderRadius: 8 }}>
                         <Text style={{ color: '#000', fontSize: 14, fontWeight: '500' }}>1000</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity   onPress={() => handleAmountSelection(2000)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 40, borderRadius: 8 }}>
+                    <TouchableOpacity onPress={() => handleAmountSelection(2000)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 40, borderRadius: 8 }}>
                         <Text style={{ color: '#000', fontSize: 14, fontWeight: '500' }}>2000</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity   onPress={() => handleAmountSelection(5000)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 40, borderRadius: 8 }}>
+                    <TouchableOpacity onPress={() => handleAmountSelection(5000)} style={{ borderWidth: 1, borderColor: '#A8A8A8', paddingVertical: 17, paddingHorizontal: 40, borderRadius: 8 }}>
                         <Text style={{ color: '#000', fontSize: 14, fontWeight: '500' }}>5000</Text>
                     </TouchableOpacity>
                 </View>
@@ -76,7 +67,7 @@ const Addmoney = () => {
                 <Text style={{ color: '#000', fontSize: 13 }}>Or enter a different amount</Text>
             </View>
             <TouchableOpacity
-                style={{ marginHorizontal: 10, borderWidth: 1, borderColor: '#000', marginTop: 10, borderRadius: 3 }}>
+                style={{ marginHorizontal: 10, borderWidth: 1.5, borderColor: '#9999', marginTop: 10, borderRadius: 7 }}>
                 <TextInput
                     placeholder="Enter amount in rupees"
                     placeholderTextColor="#999"
@@ -84,15 +75,14 @@ const Addmoney = () => {
                     value={amount}
                     onChangeText={(text) => {
                         setAmount(text);
-                        setPaymentOptionsVisible(text !== '');  
+                        setPaymentOptionsVisible(text !== '');
                     }}
                     keyboardType="numeric"
                 />
             </TouchableOpacity>
-
             {paymentOptionsVisible && (
                 <TouchableOpacity style={styles.bottomBox} onPress={handleAddMoney}>
-                    <Text style={{ color: '#fff' }}>Add</Text>
+                    <Text style={{ color: '#fff' }}>Add Money</Text>
                 </TouchableOpacity>
             )}
         </View>

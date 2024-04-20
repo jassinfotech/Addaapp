@@ -34,14 +34,10 @@ const Lodoking = () => {
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
-
-
     const handleAmountSelection = (selectedAmount) => {
         setAmount(selectedAmount.toString());
 
     };
-
-
     const handleGetCartData = async () => {
         try {
             // console.log('10 sec---------------------------------------------')
@@ -63,8 +59,6 @@ const Lodoking = () => {
     const handleAcceptChallenge = async (challengeId) => {
         try {
             const response = await postData('user/accept-challenge', { challengeId });
-            // console.log("accept-challenge-------------------------================ ", response);
-            // console.log("|response", response)
             ToastAndroid.show('You cannot accept a challenge you created', ToastAndroid.SHORT);
             handleGetCartData();
         } catch (error) {
@@ -107,7 +101,7 @@ const Lodoking = () => {
             toggleModal();
             const response = await postData('user/create-challenge', { dname, amount });
             setMassges(response.massges);
-            handleGetCartData();
+            handleGetCartData();    
             myGetCartData();
         } catch (error) {
             console.error('Accept challenge error:', error);
@@ -248,12 +242,10 @@ const Lodoking = () => {
                         <TouchableOpacity onPress={() => hemdelcreateChallenge()} style={{ backgroundColor: '#BA1E1E', padding: 10, borderRadius: 20, marginHorizontal: 20, marginVertical: 15, marginTop: 20 }}>
                             <Text style={{ color: '#fff', textAlign: 'center', fontSize: 15, fontWeight: '500' }}>Add challenges</Text>
                         </TouchableOpacity>
-
                     </View>
                 </View>
             </Modal>
         </View>
-
     );
 };
 const styles = StyleSheet.create({

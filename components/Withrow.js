@@ -6,8 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 import Paytm from '../image/Paytm.png';
 import bank from '../image/bank.png';
 import bhim from '../image/bhim.png';
-
-
 const Withrow = () => {
     const navigation = useNavigation();
 
@@ -28,14 +26,14 @@ const Withrow = () => {
                     </View>
                     <TouchableOpacity onPress={() => navigation.navigate("WithrowHistory")} style={{ width: "auto", alignItems: "flex-end", backgroundColor: '#e84649', padding: 7, borderRadius: 7, paddingHorizontal: 12 }}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={{}}>Withrow History</Text>
+                            <Text>Withrow History</Text>
                             <Text style={{ marginHorizontal: 5, marginTop: 2 }}> <Iconst size={16} name="history" color={'#fff'} /></Text>
                         </View>
                     </TouchableOpacity>
                 </View>
             </View>
 
-            <View style={{ marginHorizontal: 10,marginVertical:10 }}>
+            <View style={{ marginHorizontal: 10,marginTop:20 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <View style={{ borderColor: '#000', borderWidth: 0.7, padding: 10, borderRadius: 9 }}>
                         <Image source={Paytm} style={{ width: 90, height: 50 }} />

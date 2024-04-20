@@ -1,16 +1,17 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Iconstar from 'react-native-vector-icons/AntDesign';
 import Iconst from 'react-native-vector-icons/FontAwesome';
 import Iconsts from 'react-native-vector-icons/Entypo';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { getData } from './helperFile';
 const transactionData = [
     {
-      amount: 10.00,
-      category: 'CARDITIS',
-      details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
-      message: 'Rewarded 10 coins for successful signup!!',
-      date: '08-01-23',
+        amount: 10.00,
+        category: 'CARDITIS',
+        details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
+        message: 'Rewarded 10 coins for successful signup!!',
+        date: '08-01-23',
     },
     {
         amount: 10.00,
@@ -18,40 +19,68 @@ const transactionData = [
         details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
         message: 'Rewarded 10 coins for successful signup!!',
         date: '08-01-23',
-      },
-      {
+    },
+    {
         amount: 10.00,
         category: 'CARDITIS',
         details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
         message: 'Rewarded 10 coins for successful signup!!',
         date: '08-01-23',
-      },
-      {
+    },
+    {
         amount: 10.00,
         category: 'CARDITIS',
         details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
         message: 'Rewarded 10 coins for successful signup!!',
         date: '08-01-23',
-      },
-      {
+    },
+    {
         amount: 10.00,
         category: 'CARDITIS',
         details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
         message: 'Rewarded 10 coins for successful signup!!',
         date: '08-01-23',
-      },
-   
-  ];
+    },
+
+];
+
+
+
 const Wallet = () => {
     const navigation = useNavigation();
+    const [currentb, setCurrentb] = useState('');
+
 
     const goBack = () => {
         navigation.goBack();
     };
 
+    const handleGetuserwallet = async () => {
+        try {
+            const response = await getData('user/user-wallet');
+            // console.log('get-user-wallet------------', response)
+            setCurrentb(response.WalletBalance)
+        } catch (error) {
+            console.error('Get request error:', error);
+        }
+    };
+
+    useEffect(() => {
+        handleGetuserwallet();
+    }, []);
+
+
+    useFocusEffect(
+        React.useCallback(() => {
+            (async () => {
+                handleGetuserwallet();
+            })();
+        }, [])
+    );
+
     return (
         <View style={styles.container}>
-            <View style={{ backgroundColor: '#BA1E1E',paddingTop:35 }}>
+            <View style={{ backgroundColor: '#BA1E1E', paddingTop: 35 }}>
                 <View style={{ padding: 15, flexDirection: 'row', justifyContent: 'space-between' }}>
 
                     <View style={{ flexDirection: 'row', marginTop: 7 }}>
@@ -64,7 +93,7 @@ const Wallet = () => {
                     </View>
                     <TouchableOpacity onPress={() => navigation.navigate("Payment")} style={{ width: "auto", alignItems: "flex-end", backgroundColor: '#e84649', padding: 7, borderRadius: 7, paddingHorizontal: 12 }}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={{}}>payment history</Text>
+                            <Text>payment history</Text>
                             <Text style={{ marginHorizontal: 5, marginTop: 2 }}> <Iconst size={16} name="history" color={'#fff'} /></Text>
                         </View>
                     </TouchableOpacity>
@@ -73,16 +102,25 @@ const Wallet = () => {
             </View>
             <ScrollView>
                 <View style={{ marginHorizontal: 10 }}>
-                 <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                    <View style={{backgroundColor:'#A80331',width:'48%',height:100,marginVertical:10,borderRadius:10}}>
-                        <Text style={{color:'#fff',textAlign:'center',paddingTop:10}}>My money</Text>
-                     
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ backgroundColor: '#A80331', width: '48%', height: 100, marginVertical: 10, borderRadius: 10 }}>
+                            <Text style={{ color: '#fff', textAlign: 'center', paddingTop: 10 }}>My money</Text>
+                            {currentb.status === 'pending' ? (
+                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17,textAlign:'center',top:15 }}>₹0</Text>
+                            ) : (
+                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17,textAlign:'center',top:15 }}>₹{currentb}</Text>
+                            )}
+
+                        </View>
+                        <View style={{ backgroundColor: '#A80331', width: '48%', height: 100, marginVertical: 10, borderRadius: 10 }}>
+                            <Text style={{ color: '#fff', textAlign: 'center', paddingTop: 10 }}>Total winning</Text>
+                            {currentb.status === 'pending' ? (
+                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17,textAlign:'center',top:15 }}>₹0</Text>
+                            ) : (
+                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17,textAlign:'center',top:15 }}>₹0</Text>
+                            )}
+                        </View>
                     </View>
-                    <View style={{backgroundColor:'#A80331',width:'48%',height:100,marginVertical:10,borderRadius:10}}>
-                        <Text style={{color:'#fff',textAlign:'center',paddingTop:10}}>Total winning</Text>
-                     
-                    </View>
-                 </View>
 
                     <View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>

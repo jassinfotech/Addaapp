@@ -1,5 +1,4 @@
 import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import lodoImage from '../image/logo.png';
 
