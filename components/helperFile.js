@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import RNRestart from 'react-native-restart';
 const BASE_URL = 'https://backend.progame.co.in';
 let headers = {
   'Content-Type': 'application/json',
@@ -22,6 +23,7 @@ const handleTokenExpiration =   (response) => {
   if (response.status === 401) {
     console.log('Token has expired. Redirecting to login page.');
     AsyncStorage.removeItem('token');
+    RNRestart.Restart()
   }
   return response;
 };
@@ -56,19 +58,16 @@ const getData = async (endpoint) => {
 
 
 const postDatafrom = async (endpoint, data) => {
-  await setAuthToken(); 
-
   try {
-      const token = await AsyncStorage.getItem('token'); 
-
-      const response = await axios.post(`${BASE_URL}/${endpoint}`, data, {
-        headers: { "Content-Type": "multipart/form-data", "Authorization": token }
-      });
-
+    const token = await AsyncStorage.getItem('token');
+    const response = await axios.post(`${BASE_URL}/${endpoint}`, data, {
+      headers: { "Content-Type": "multipart/form-data", "authorization": `Bearer ${token}` }
+    });
+    return response.data; 
   } catch (error) {
-      throw error; 
+    console.error("Error posting data:", error);
+    throw error; 
   }
 };
-
 
 export { setAuthToken, postData, getData, postDatafrom, BASE_URL };

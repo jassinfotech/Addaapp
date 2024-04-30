@@ -59,18 +59,21 @@ const Lodoking = () => {
     const handleAcceptChallenge = async (challengeId) => {
         try {
             const response = await postData('user/accept-challenge', { challengeId });
-            ToastAndroid.show('You cannot accept a challenge you created', ToastAndroid.SHORT);
-            handleGetCartData();
+            if(response.status === 'success'){
+                ToastAndroid.show(response.message, ToastAndroid.SHORT);
+                handleGetCartData();
+            }
+            ToastAndroid.show(response.message, ToastAndroid.SHORT);
+            
         } catch (error) {
-            console.error('Accept challenge error:', error);
-            Alert.alert('Error', 'Failed to accept the challenge. Please try again.');
+            console.error('', error);
+            ToastAndroid.show(error, ToastAndroid.SHORT);
         }
     };
     const myGetCartData = async () => {
         try {
             const response = await getData('user/get-accept-challenges');
             console.log("response-------------------------",response)
-    
             setAcceptchallengeData(response);
             setIsLoading(false);
         } catch (error) {

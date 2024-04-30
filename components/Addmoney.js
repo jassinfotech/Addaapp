@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, ToastAndroid } from 'react-native'
 import Iconstar from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
+import { postData } from './helperFile';
 
 const Addmoney = () => {
     const [amount, setAmount] = useState('');
@@ -20,6 +21,24 @@ const Addmoney = () => {
     const handleAddMoney = () => {
         console.log('Adding money:', amount);
     };
+
+
+    const handleDepositrequest = async (amount, event) => {
+        event.persist(); 
+        try {
+            const response = await postData('user/deposit-request', { amount });
+            console.log('deposit-request---------',response)
+            goBack();
+            if(response.status === 'success'){
+                ToastAndroid.show(response.message, ToastAndroid.SHORT);
+            }
+            ToastAndroid.show(response.message, ToastAndroid.SHORT);
+        } catch (error) {
+            console.error('', error);
+            ToastAndroid.show(response.message, ToastAndroid.SHORT);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={{ backgroundColor: '#BA1E1E', paddingTop: 35 }}>
@@ -81,9 +100,9 @@ const Addmoney = () => {
                 />
             </TouchableOpacity>
             {paymentOptionsVisible && (
-                <TouchableOpacity style={styles.bottomBox} onPress={handleAddMoney}>
-                    <Text style={{ color: '#fff' }}>Add Money</Text>
-                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomBox} onPress={(event) => handleDepositrequest(amount, event)}>
+                <Text style={{ color: '#fff' }}>Add Money</Text>
+            </TouchableOpacity>
             )}
         </View>
     )

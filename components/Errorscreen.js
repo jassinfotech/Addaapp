@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList,ToastAndroid } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList,ToastAndroid ,ActivityIndicator } from 'react-native';
 import IconStar from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
@@ -7,6 +7,7 @@ import upload from '../image/upload.png';
 import dropdown from '../image/dropdown.png';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { postData, postDatafrom } from './helperFile';
 
 const reasions = [
     { reasion: 'WON' },
@@ -15,14 +16,20 @@ const reasions = [
 
 ];
 const Errorscreen = ({ route }) => {
+    const navigation = useNavigation();
+
+  
     const { challengeId } = route.params || {};
     console.log('challengeId----', challengeId)
     const [selectedImage, setSelectedImage] = useState();
     const [data, setData] = useState();
     const [clicked, setClicked] = useState(false);
     const [selectedreasion, setSelectedreasion] = useState('');
+    const [loading, setLoading] = useState(false);
 
-
+    const goBack = () => {
+        navigation.goBack();
+    };
     const handlereasionSelect = (reasion) => {
         setSelectedreasion(reasion);
         setClicked(false);
@@ -57,46 +64,43 @@ const Errorscreen = ({ route }) => {
     };
 
 
+    
     const handleScreenshort = async () => {
-        try {
+        if (!selectedreasion || !challengeId) {
+            toast.error('Please fill in Reasion fields');
+            return;
+        }
+        setLoading(true);
             const formData = new FormData();
             formData.append("challengeId", challengeId);
             formData.append("reasion", selectedreasion);
-
-            if (selectedImage) {
+           if (selectedImage) {
                 formData.append("file", {
                     name: 'screenshot.jpg',
                     type: 'image/jpeg',
                     uri: selectedImage.uri,
                 });
             }
-            try {
-                const token = await AsyncStorage.getItem('token');
-                const response = await axios.post("https://backend.progame.co.in/user/screenshot", formData, {
-                    headers: { "Content-Type": "multipart/form-data", "Authorization": token }
-                });
+    
+            const token = await AsyncStorage.getItem('token');
+            console.log('Token:', token);
+            console.log('Form Data:', formData);
 
-                console.log("res--------------", response.data)
-                if (response.data.status === 'success') {
+            try {
+                const response = await postDatafrom('user/screenshot', formData);
+                console.log('Post response:', response);
+                if (response.status === 'success') {
                     goBack();
-                } else {
-                    var message = response.data.message
+                }
+                else{
                     ToastAndroid.show(message, ToastAndroid.SHORT);
                 }
             } catch (error) {
-                console.error('screenshot request error:', error);
+                console.error('Post request error:', error);
             }
-
-
-        } catch (error) {
-            console.error('Error while saving event:', error);
-        }
-    };
-    const navigation = useNavigation();
-
-    const goBack = () => {
-        navigation.goBack();
-    };
+         } 
+    
+    
 
     return (
         <View style={styles.container}>
@@ -165,12 +169,19 @@ const Errorscreen = ({ route }) => {
                     )}
                 </View>
                 <TouchableOpacity
-                    onPress={() => {
-                        handleScreenshort();
-                    }}
-                    style={styles.confirmButton}>
+                onPress={() => {
+                    handleScreenshort();
+                }}
+                style={styles.confirmButton}
+                disabled={loading} // Disable button when loading
+            >
+                {loading ? (
+                    <ActivityIndicator size="small" color="#fff" /> // Show loader when loading
+                ) : (
                     <Text style={styles.confirmButtonText}>CONFIRM</Text>
-                </TouchableOpacity>
+                )}
+            </TouchableOpacity>
+
             </View>
         </View>
     );

@@ -5,45 +5,6 @@ import Iconst from 'react-native-vector-icons/FontAwesome';
 import Iconsts from 'react-native-vector-icons/Entypo';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { getData } from './helperFile';
-const transactionData = [
-    {
-        amount: 10.00,
-        category: 'CARDITIS',
-        details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
-        message: 'Rewarded 10 coins for successful signup!!',
-        date: '08-01-23',
-    },
-    {
-        amount: 10.00,
-        category: 'CARDITIS',
-        details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
-        message: 'Rewarded 10 coins for successful signup!!',
-        date: '08-01-23',
-    },
-    {
-        amount: 10.00,
-        category: 'CARDITIS',
-        details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
-        message: 'Rewarded 10 coins for successful signup!!',
-        date: '08-01-23',
-    },
-    {
-        amount: 10.00,
-        category: 'CARDITIS',
-        details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
-        message: 'Rewarded 10 coins for successful signup!!',
-        date: '08-01-23',
-    },
-    {
-        amount: 10.00,
-        category: 'CARDITIS',
-        details: 'Deposit 5.00, winning 0.00, Bonus 0.00',
-        message: 'Rewarded 10 coins for successful signup!!',
-        date: '08-01-23',
-    },
-
-];
-
 
 
 const Wallet = () => {
@@ -58,8 +19,21 @@ const Wallet = () => {
     const handleGetuserwallet = async () => {
         try {
             const response = await getData('user/user-wallet');
-            // console.log('get-user-wallet------------', response)
+            console.log('get-user-wallet------------', response)
             setCurrentb(response.WalletBalance)
+        } catch (error) {
+            console.error('Get request error:', error);
+        }
+    };
+
+
+    const [historyData, setHistorydata] = useState([]);
+
+    const handleWinhistory = async () => {
+        try {
+            const response = await getData('user/win-history');
+            console.log('handleWinhistory-----=====', response)
+            setHistorydata(response)
         } catch (error) {
             console.error('Get request error:', error);
         }
@@ -67,6 +41,7 @@ const Wallet = () => {
 
     useEffect(() => {
         handleGetuserwallet();
+        handleWinhistory();
     }, []);
 
 
@@ -106,18 +81,18 @@ const Wallet = () => {
                         <View style={{ backgroundColor: '#A80331', width: '48%', height: 100, marginVertical: 10, borderRadius: 10 }}>
                             <Text style={{ color: '#fff', textAlign: 'center', paddingTop: 10 }}>My money</Text>
                             {currentb.status === 'pending' ? (
-                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17,textAlign:'center',top:15 }}>₹0</Text>
+                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17, textAlign: 'center', top: 15 }}>₹0</Text>
                             ) : (
-                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17,textAlign:'center',top:15 }}>₹{currentb}</Text>
+                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17, textAlign: 'center', top: 15 }}>₹{currentb}</Text>
                             )}
 
                         </View>
                         <View style={{ backgroundColor: '#A80331', width: '48%', height: 100, marginVertical: 10, borderRadius: 10 }}>
                             <Text style={{ color: '#fff', textAlign: 'center', paddingTop: 10 }}>Total winning</Text>
                             {currentb.status === 'pending' ? (
-                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17,textAlign:'center',top:15 }}>₹0</Text>
+                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17, textAlign: 'center', top: 15 }}>₹0</Text>
                             ) : (
-                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17,textAlign:'center',top:15 }}>₹0</Text>
+                                <Text style={{ color: '#fff', fontWeight: '500', fontSize: 17, textAlign: 'center', top: 15 }}>₹0</Text>
                             )}
                         </View>
                     </View>
@@ -127,28 +102,29 @@ const Wallet = () => {
                             <View>
                                 <Text style={{ color: '#000', fontSize: 16 }}>Recent Transactions</Text>
                             </View>
-                            <TouchableOpacity>
-                                <Text style={{ color: '#000', backgroundColor: '#efd2d2ab', padding: 2, paddingHorizontal: 8, borderRadius: 4 }}>View all</Text>
-                            </TouchableOpacity>
+
                         </View>
 
-                        {transactionData.map((transaction, index) => (
-                            <View key={index} style={{ borderWidth: 0.7, borderColor: '#A80331', padding: 10, borderRadius: 5, marginBottom: 10 }}>
+                        {historyData.map((item, index) => (
+                            <View key={index} style={{ borderWidth: 0.7, borderColor: '#999', padding: 15, borderRadius: 5, marginBottom: 10 }}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text style={{ marginTop: 1 }}> <Iconst size={14} name="rupee" color={'#000'} /></Text>
-                                        <Text style={{ color: '#000', fontSize: 15, }}>{transaction.amount}</Text>
+
+                                    <View>
+                                        <View>
+                                            <Text style={{ color: '#3aa60f', fontSize: 12 }}>ChallengeId:000{item.challenge_id}</Text>
+                                        </View>
+                                        <View>
+                                            <Text style={{ color: '#000', fontSize: 14, marginTop: 6 }}>Date: {new Date(item.created_at).toLocaleDateString()}</Text>
+                                        </View>
                                     </View>
-                                    <Text style={{ color: '#719e6c', fontSize: 12 }}>{transaction.category}</Text>
-                                </View>
-                                <View>
-                                    <Text style={{ color: '#A80331', fontSize: 11 }}>{transaction.details}</Text>
-                                </View>
-                                <View>
-                                    <Text style={{ color: '#000', fontSize: 11 }}>{transaction.message}</Text>
-                                </View>
-                                <View>
-                                    <Text style={{ color: '#000', fontSize: 11 }}>{transaction.date}</Text>
+                                    <View>
+                                        <Text style={{ color: '#3aa60f', fontSize: 12 }}>Winning</Text>
+                                        <View style={{ flexDirection: 'row', marginTop: 6 }}>
+                                            <Text style={{ marginTop: 1 }}> <Iconst size={14} name="rupee" color={'#000'} /></Text>
+                                            <Text style={{ color: '#000', fontSize: 15 }}>{item.amount}</Text>
+                                        </View>
+
+                                    </View>
                                 </View>
                             </View>
                         ))}
