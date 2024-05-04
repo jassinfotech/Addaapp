@@ -24,6 +24,7 @@
     "react-native": "0.73.1",
     "react-native-animated-splash-screen": "^2.0.5",
     "react-native-document-picker": "^9.1.0",
+    "react-native-drawer": "^2.5.1",
     "react-native-dropdown-select-list": "^2.0.5",
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.14.0",
@@ -40,6 +41,7 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^3.5.2",
+    "react-native-upi-payment": "^1.0.5",
     "react-native-vector-icons": "^10.0.3"
   },
   "devDependencies": {

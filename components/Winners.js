@@ -12,8 +12,8 @@ import Sidescreen from './Sidescreen';
 
 
 const Winners = ({ navigation }) => {
-  const drawer = useRef(null);
-  const [drawerPosition] = useState('left');
+  const newDrawer = useRef(null);
+
   const navigationView = () => (
     <View style={{ flex: 1, backgroundColor: '#BA1E1E', }}>
       <Sidescreen />
@@ -22,29 +22,26 @@ const Winners = ({ navigation }) => {
 
   return (
     <DrawerLayoutAndroid
-      ref={drawer}
+      ref={newDrawer}
       drawerWidth={300}
-      drawerPosition={drawerPosition === 'left' ? DrawerLayoutAndroid.positions.Left : DrawerLayoutAndroid.positions.Right}
       renderNavigationView={navigationView}
     >
       <View style={[styles.background,]}>
         <Appbar.Header style={{ backgroundColor: "#BA1E1E", flexDirection: 'row' }} >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1, paddingHorizontal: 8, paddingVertical: 10 }}>
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity style={{ paddingRight: 8 }} onPress={() => drawer.current?.openDrawer()}>
+              <TouchableOpacity style={{ paddingRight: 8 }} onPress={() => newDrawer.current?.openDrawer()}>
                 <Text> <Icon size={27} name="reorder-three-outline" color={'#fff'} /></Text>
               </TouchableOpacity>
             </View>
             <View style={{ flexDirection: 'row' }}>
 
-              <TouchableOpacity  onPress={() => navigation.navigate("MyProfile")}  style={{ width: "auto", alignItems: "flex-end", marginRight: 10, marginLeft: 15 }}>
+              <TouchableOpacity onPress={() => navigation.navigate("MyProfile")} style={{ width: "auto", alignItems: "flex-end", marginRight: 10, marginLeft: 15 }}>
                 <Text style={{ paddingTop: 5 }}><Ionicon size={40} name="user" color={'#fff'} /> </Text>
               </TouchableOpacity>
-
             </View>
           </View>
         </Appbar.Header>
-
         <ScrollView style={styles.container}>
           <View style={{ backgroundColor: '#BA1E1E', paddingHorizontal: 30, paddingBottom: 30, borderBottomLeftRadius: 80, borderBottomRightRadius: 80 }}>
             <View style={{ alignSelf: 'center' }}>

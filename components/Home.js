@@ -25,49 +25,47 @@ import { getData } from './helperFile';
 const Home = ({ navigation }) => {
   const [currentb, setCurrentb] = useState('');
   const drawer = useRef(null);
-  const [drawerPosition] = useState('left');
 
   const handleGetuserwallet = async () => {
     try {
       const response = await getData('user/user-wallet');
-      // console.log('get-user-wallet------------', response)
-      setCurrentb(response.WalletBalance)
+      setCurrentb(response.WalletBalance);
     } catch (error) {
       console.error('Get request error:', error);
     }
   };
 
-
   const navigationView = () => (
-    <View style={{ flex: 1, backgroundColor: '#BA1E1E', }}>
+    <View style={{ flex: 1, backgroundColor: '#BA1E1E' }}>
       <Sidescreen />
     </View>
   );
+
+  const openDrawer = () => { 
+    drawer.current?.openDrawer();
+  };
   useEffect(() => {
     handleGetuserwallet();
   }, []);
-  
 
   useFocusEffect(
     React.useCallback(() => {
-        (async () => {
-          handleGetuserwallet();
-        })();
+      handleGetuserwallet();
     }, [])
-);
-  
+  );
+
   return (
     <DrawerLayoutAndroid
       ref={drawer}
       drawerWidth={300}
-      drawerPosition={drawerPosition === 'left' ? DrawerLayoutAndroid.positions.Left : DrawerLayoutAndroid.positions.Right}
+      drawerPosition="left"
       renderNavigationView={navigationView}
     >
       <View style={[styles.background,]}>
         <Appbar.Header style={{ backgroundColor: "#BA1E1E", flexDirection: 'row' }} >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1, paddingHorizontal: 8, paddingVertical: 10 }}>
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity style={{ paddingRight: 8 }} onPress={() => drawer.current?.openDrawer()}>
+              <TouchableOpacity style={{ paddingRight: 8 }}  onPress={() => drawer.current?.openDrawer()}>
                 <Text> <Icon size={27} name="reorder-three-outline" color={'#fff'} /></Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => navigation.navigate("Wallet")} style={{ width: "auto", alignItems: "flex-end", marginLeft: 15, backgroundColor: '#e84649', padding: 7, borderRadius: 7, paddingHorizontal: 12 }}>
@@ -83,7 +81,6 @@ const Home = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View style={{ flexDirection: 'row' }}>
-
               <TouchableOpacity onPress={() => navigation.navigate("MyProfile")} style={{ width: "auto", alignItems: "flex-end", marginRight: 10, marginLeft: 15 }}>
                 <Text style={{ paddingTop: 5 }}><Ionicons size={30} name="user-circle" color={'#fff'} /> </Text>
               </TouchableOpacity>
@@ -91,11 +88,7 @@ const Home = ({ navigation }) => {
             </View>
           </View>
         </Appbar.Header>
-        {/* <ImageBackground
-          source={require('../image/background1.png')}
-          style={styles.backgroundImage}
-        >
-        </ImageBackground> */}
+
         <ScrollView style={{ backgroundColor: '#0a1017' }}>
           <View>
             <Sliderscreen />
@@ -129,19 +122,7 @@ const Home = ({ navigation }) => {
 
               </TouchableOpacity>
             </View>
-            {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <TouchableOpacity>
-                <Image source={freefire} style={styles.callduty} />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={pubg} style={styles.callduty} />
 
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={callduty} style={styles.callduty} />
-
-              </TouchableOpacity>
-            </View> */} 
             <View>
               <Text style={styles.heding}>ESPORTS</Text>
             </View>
